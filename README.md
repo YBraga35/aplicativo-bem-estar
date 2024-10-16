@@ -33,12 +33,12 @@ Siga os passos abaixo para instalar e executar o aplicativo em seu ambiente loca
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seuusuario/zenjourney.git
+   git clone https://github.com/YBraga35/aplicativo-bem-estar.git
    ```
 
 2. **Navegue até o diretório do projeto:**
    ```bash
-   cd zenjourney/aplicativo-bem-estar
+   cd aplicativo-bem-estar
    ```
 
 3. **Instale as dependências:**
