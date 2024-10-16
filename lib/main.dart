@@ -1,4 +1,4 @@
-import 'package:bem_estar_app/boas_vindas.dart';
+import 'package:bem_estar_app/views/boas_vindas.dart'; // Ensure this import matches the file where BoasVindas is defined
 import 'package:flutter/material.dart';
 
 void main() {
