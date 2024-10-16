@@ -1,5 +1,3 @@
-# bem_estar_app
-
 # ZenJourney
 
 ZenJourney é um aplicativo desenvolvido para promover hábitos saudáveis e bem-estar mental. Com uma abordagem centrada no usuário, o aplicativo visa ajudar as pessoas a melhorar sua qualidade de vida por meio de intervenções não medicamentosas e o acompanhamento de hábitos diários.
