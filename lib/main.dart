@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // Definindo a tela de boas-vindas como a tela inicial
-      home: BoasVindas(),
+      home: const BoasVindas(),
     );
   }
 }
