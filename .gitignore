@@ -1,0 +1,14 @@
+# Flutter/Dart files
+build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Firebase keys
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# IDEs
+.vscode/
+.idea/
