@@ -20,7 +20,8 @@ class Sobre extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Título principal
+              SizedBox(height: screenHeight * 0.05),
+
               Center(
                 child: const Text(
                   'Zen Journey',
@@ -34,7 +35,6 @@ class Sobre extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Texto descritivo
               const Text(
                 'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
                 style: TextStyle(
@@ -45,7 +45,6 @@ class Sobre extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.05),
 
-              // Título de propósito
               Center(
                 child: const Text(
                   'Propósito',
@@ -59,7 +58,6 @@ class Sobre extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Texto de propósito
               const Text(
                 'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
                 style: TextStyle(
@@ -70,32 +68,6 @@ class Sobre extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.05),
 
-              // Adicionando um novo título de seções
-              Center(
-                child: const Text(
-                  'Por que escolher o Zen Journey?',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF193339),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              // Texto explicativo adicional
-              const Text(
-                'Nosso aplicativo oferece uma abordagem única para a saúde e bem-estar. Com recursos interativos e uma comunidade de apoio, você nunca estará sozinho em sua jornada. Junte-se a nós para transformar sua vida!',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color(0xFF193339),
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(height: screenHeight * 0.05),
-
-              // Botão para criar conta
               Center(
                 child: ElevatedButton(
                   onPressed: () {
