@@ -10,7 +10,7 @@ class Authenticate extends StatefulWidget {
 class AuthenticateState extends State<Authenticate> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+  final bool _isLoading = false;
   String? _errorMessage;
 
   @override

@@ -70,6 +70,31 @@ class Sobre extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.05),
 
+              // Adicionando um novo título de seções
+              Center(
+                child: const Text(
+                  'Por que escolher o Zen Journey?',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF193339),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Texto explicativo adicional
+              const Text(
+                'Nosso aplicativo oferece uma abordagem única para a saúde e bem-estar. Com recursos interativos e uma comunidade de apoio, você nunca estará sozinho em sua jornada. Junte-se a nós para transformar sua vida!',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Color(0xFF193339),
+                ),
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(height: screenHeight * 0.05),
+
               // Botão para criar conta
               Center(
                 child: ElevatedButton(
