@@ -20,13 +20,15 @@ class BoasVindas extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(16.0),
+                  margin: EdgeInsets.only(top: 100.0),
                   child: Image.asset(
                     'assets/images/logo.png',
-                    height: screenHeight * 0.25,
+                    width: 412,
+                    height: 135,
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 const Text(
                   'Boas Vindas',
                   style: TextStyle(
@@ -36,13 +38,23 @@ class BoasVindas extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Aqui começa sua jornada, onde a cada passo te aproxima de seu objetivo: uma vida melhor',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFF193339),
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 21,
+                      color: Color(0xFF193339),
+                      fontFamily: 'Raleway', // Ajuste para a família de fontes correta
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(text: 'Aqui começa sua jornada, onde a cada passo te aproxima de seu objetivo: '),
+                      TextSpan(
+                        text: 'uma vida melhor',
+                        style: TextStyle(fontWeight: FontWeight.bold), // Aplica o negrito aqui
+                      ),
+                    ],
                   ),
+                  textAlign: TextAlign.center, // Alinhamento do texto
                 ),
                 const SizedBox(height: 20),
                 Image.asset(
@@ -63,9 +75,17 @@ class BoasVindas extends StatelessWidget {
                       horizontal: screenWidth * 0.2,
                       vertical: 15,
                     ),
-                    backgroundColor: const Color(0xFF49AB8C),
+                    backgroundColor: const Color(0xFF448D9C),
                   ),
-                  child: const Text('Vamos começar'),
+                  child: const Text(
+                    'Vamos começar',
+                    style: TextStyle(
+                      fontFamily: 'Raleway', // Definindo a fonte para Raleway
+                      fontSize: 22,          // Alterando o tamanho da fonte
+                      fontWeight: FontWeight.bold, // Definindo o estilo como negrito
+                      color: Colors.white,   // Cor do texto, se necessário
+                    ),
+                  ),
                 ),
               ],
             ),
