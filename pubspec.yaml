@@ -58,12 +58,12 @@ flutter:
   fonts:
     - family: Raleway
       fonts:
-        - asset: assets/fonts/Raleway/static/Raleway-Medium.ttf
-        - asset: assets/fonts/Raleway/static/Raleway-Bold.ttf
+        - asset: assets/fonts/static/Raleway-Medium.ttf
+        - asset: assets/fonts/static/Raleway-Bold.ttf
     - family: Tangerine
       fonts:
-        - asset: assets/fonts/Raleway/static/Tangerine-Bold.ttf
-        - asset: assets/fonts/Raleway/static/Tangerine-Regular.ttf
+        - asset: assets/fonts/Tangerine/Tangerine-Bold.ttf
+        - asset: assets/fonts/Tangerine/Tangerine-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
