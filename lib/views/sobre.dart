@@ -11,7 +11,7 @@ class Sobre extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sobre'),
+        title: const Text('SOBRE TESTE'),
         backgroundColor: const Color(0xFF448D9C),
       ),
       body: SingleChildScrollView(
