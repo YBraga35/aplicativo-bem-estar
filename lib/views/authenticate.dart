@@ -1,4 +1,5 @@
 import 'package:bem_estar_app/controllers/autenticacao_controle.dart';
+import 'package:bem_estar_app/views/trail_preference.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -126,6 +127,7 @@ class AuthenticateState extends State<Authenticate> {
                           child: ElevatedButton(
                             onPressed: () {
                               _autenticacaoControle.loginUsuarios(email: _emailController.text, senha: _senhaController.text);                      
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Trilhas()));
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
