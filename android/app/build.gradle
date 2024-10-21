@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bem_estar_app"
+    namespace = "com.ufcspa.zenjourney"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
