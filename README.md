@@ -51,6 +51,12 @@ Siga os passos abaixo para instalar e executar o aplicativo em seu ambiente loca
    flutter run
    ```
 
+### Ferramentas Devs
+
+Seguem abaixo as intruções específicas sobre a instalação das ferramentas devidas, desde VS Code, Flutter (SDK), Android Studio e todo o mais necessário:
+Apenas seguir o link para visualizar o recurso:
+[Ferramentas Zenjourney.docs](https://docs.google.com/presentation/d/178lnvPqWfYygxgik9JA90xXOM3qPyLUQG8NSBTUw1iw/edit?usp=sharing)
+
 ## Uso
 
 Após a instalação, você pode começar a usar o ZenJourney para rastrear seus hábitos e melhorar seu bem-estar mental. O aplicativo oferece uma interface intuitiva e guias para ajudar você a aproveitar ao máximo seus recursos.
