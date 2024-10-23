@@ -4,71 +4,116 @@ import  'package:flutter/material.dart';
 class Trilhas extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
-    
-    return Scaffold(
-      backgroundColor:const Color(0xFFF1F7F9),
-      body: SingleChildScrollView(
-        child: Center(
+
+      return Scaffold(
+        backgroundColor: Color(0xFFE0E6EA), // Cor de fundo da tela
+        body: Center(
           child: Padding(
-            padding:  EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  margin: EdgeInsets.only(top: 1.0),
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: 412,
-                    height: 135,
-                    fit: BoxFit.cover),
-                ),
-                const SizedBox(height: 16),
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 400,
+                  height: 100,
+                  ),
+                SizedBox(height: 10),
                 Text(
                   'Trilhas',
                   style: TextStyle(
-                    fontSize: 32,
-                    color: const Color(0xFF448D9C),
+                    fontSize: 24,
+                    color: Color(0xFF448D9C),
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.bold)
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                Container(
-                  width: 230,
-                  height: 100,
-                  child: Text(
-                  'Aqui você escolherá qual seu progresso ao longo do caminho',
+                SizedBox(height: 5),
+                Text(
+                  'Aqui você escolherá qual\nseu progresso ao longo\ndo caminho',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 16,
+                    color: Colors.black,
                     fontFamily: 'Raleway'
-                   ),
-                  )
+                  ),
                 ),
-                const SizedBox(height: 20,),
-                GridView.count(
-                  crossAxisCount: 2, //número de botões por linha
-                  crossAxisSpacing: 10, //espaçamento horizontal
-                  mainAxisSpacing: 10, //espaçamento vertical
+                SizedBox(height: 30),
+                Wrap(
+                  spacing: 20.0,
+                  runSpacing: 14.0,
+                  alignment: WrapAlignment.center,
                   children: [
-                    
-                  ],)
+                    buildElevatedButton(Icons.fitness_center, 'Físico',() {
+                      //açaõ especifica
+                    }),
+                    buildElevatedButton(Icons.bedtime, 'Sono',() {
+                      //ação especifica
+                    }),
+                    buildElevatedButton(Icons.restaurant, 'Nutrição',() {
+                      //ação especifica
+                    }),
+                    buildElevatedButton(Icons.music_note, 'Hobbies',(){
+                      //ação especifica
+                    }),
+                    buildElevatedButton(Icons.groups, 'Social',() {
+                      //ação especifica
+                    }),
+                  ],
+                ),
+                SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: () {},//passar para próxima tela
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF193339), // Cor do botão
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: Text(
+                    'Continuar',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
               ],
-            ) 
+            ),
+          ),
+        ),
+      );
+  } 
+}
+Widget buildElevatedButton(IconData icon, String label, void Function() onPressed) {
+  return SizedBox(
+    width: 102,
+    height: 109,
+    child: ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFF448D9C),
+        padding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
-      )
-    ); 
-  }
-  
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 40,
+            color: const Color.fromARGB(255, 5, 54, 48),
+          ),
+          SizedBox(height: 8),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white,
+              fontFamily: 'Raleway'
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
-
-Widget buildButton(){
-  return ElevatedButton.styleFrom(
-    padding: EdgeInsets.all(16.0),
-    primary: Color(0xFF448D9C)
-
-  )
-}
-

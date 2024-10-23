@@ -128,6 +128,7 @@ class AuthenticateState extends State<Authenticate> {
                             onPressed: () {
                               _autenticacaoControle.loginUsuarios(email: _emailController.text, senha: _senhaController.text);                      
                               Navigator.push(context, MaterialPageRoute(builder: (context) => Trilhas()));
+                               //ação do botão
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
