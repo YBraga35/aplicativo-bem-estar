@@ -1,3 +1,4 @@
+import 'package:bem_estar_app/controllers/autenticacao_controle.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -8,8 +9,9 @@ class Authenticate extends StatefulWidget {
 }
 
 class AuthenticateState extends State<Authenticate> {
+  final AutenticacaoControle _autenticacaoControle = AutenticacaoControle();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
   final bool _isLoading = false;
   String? _errorMessage;
 
@@ -85,7 +87,7 @@ class AuthenticateState extends State<Authenticate> {
                       TextField(
                         controller: _emailController,
                         decoration: InputDecoration(
-                          labelText: 'Nome de usuário ou E-mail',
+                          labelText: 'E-mail',
                           prefixIcon: const Icon(Icons.email),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -95,7 +97,7 @@ class AuthenticateState extends State<Authenticate> {
                       ),
                       const SizedBox(height: 10),
                       TextField(
-                        controller: _passwordController,
+                        controller: _senhaController,
                         decoration: InputDecoration(
                           labelText: 'Senha',
                           prefixIcon: const Icon(Icons.lock),
@@ -122,7 +124,9 @@ class AuthenticateState extends State<Authenticate> {
                       else ...[
                         Center(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _autenticacaoControle.loginUsuarios(email: _emailController.text, senha: _senhaController.text);                      
+                            },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
                                 horizontal: screenWidth * 0.2,

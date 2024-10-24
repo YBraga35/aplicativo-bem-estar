@@ -1,4 +1,4 @@
-package com.example.bem_estar_app
+package com.ufcspa.zenjourney
 
 import io.flutter.embedding.android.FlutterActivity
 
