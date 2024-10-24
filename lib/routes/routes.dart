@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../views/start/boas_vindas.dart';
 import '../views/start/sobre.dart';
 import '../views/start/authenticate.dart';
+import '../views/start/register.dart';
 import '../views/starting_trails/trail_preference.dart';
 import '../views/starting_trails/physical_goals.dart';
 import '../views/starting_trails/hobbies_goals.dart';
@@ -14,6 +15,7 @@ class AppRoutes {
   static const String boasVindas = '/';
   static const String sobre = '/sobre';
   static const String authenticate = '/authenticate';
+  static const String register = '/register';
   static const String trailPreference = '/trailPreference';
   static const String physicalGoals = '/physicalGoals';
   static const String hobbiesGoals = '/hobbiesGoals';
@@ -30,6 +32,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const Sobre());
       case authenticate:
         return MaterialPageRoute(builder: (_) => const Authenticate());
+      case register:
+        return MaterialPageRoute(builder: (_) => const Register());
       case trailPreference:
         return MaterialPageRoute(builder: (_) => const Trilhas());
       case physicalGoals:
