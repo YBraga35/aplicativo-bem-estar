@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'sobre.dart';
+import '/routes/routes.dart';
 
 class BoasVindas extends StatelessWidget {
   const BoasVindas({super.key});
@@ -65,10 +65,7 @@ class BoasVindas extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Sobre()),
-                    );
+                    Navigator.pushNamed(context, AppRoutes.sobre);
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(

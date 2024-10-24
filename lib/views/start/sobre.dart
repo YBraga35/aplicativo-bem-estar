@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'authenticate.dart';
+import '/routes/routes.dart';
 
 class Sobre extends StatelessWidget {
   const Sobre({super.key});
@@ -21,7 +21,6 @@ class Sobre extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: screenHeight * 0.05),
-
               Center(
                 child: const Text(
                   'Zen Journey',
@@ -34,7 +33,6 @@ class Sobre extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
               const Text(
                 'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
                 style: TextStyle(
@@ -44,7 +42,6 @@ class Sobre extends StatelessWidget {
                 textAlign: TextAlign.justify,
               ),
               SizedBox(height: screenHeight * 0.05),
-
               Center(
                 child: const Text(
                   'Propósito',
@@ -57,7 +54,6 @@ class Sobre extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-
               const Text(
                 'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
                 style: TextStyle(
@@ -67,14 +63,10 @@ class Sobre extends StatelessWidget {
                 textAlign: TextAlign.justify,
               ),
               SizedBox(height: screenHeight * 0.05),
-
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Authenticate()),
-                    );
+                    Navigator.pushNamed(context, AppRoutes.authenticate);
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../boas_vindas.dart';
+import '/routes/routes.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -11,7 +11,8 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const BoasVindas(),
+      initialRoute: AppRoutes.boasVindas,
+      onGenerateRoute: AppRoutes.generateRoute,
     );
   }
 }
