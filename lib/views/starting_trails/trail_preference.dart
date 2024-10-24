@@ -60,16 +60,16 @@ class Trilhas extends StatelessWidget {
                     Navigator.pushNamed(context, AppRoutes.physicalGoals);
                   }),
                   buildElevatedButton(Icons.bedtime, 'Sono', () {
-                    // Ação específica
+                    Navigator.pushNamed(context, AppRoutes.sleepGoals);
                   }),
                   buildElevatedButton(Icons.restaurant, 'Nutrição', () {
-                    // Ação específica
+                    Navigator.pushNamed(context, AppRoutes.nutritionGoals);
                   }),
                   buildElevatedButton(Icons.music_note, 'Hobbies', () {
-                    // Ação específica
+                    Navigator.pushNamed(context, AppRoutes.hobbiesGoals);
                   }),
                   buildElevatedButton(Icons.groups, 'Social', () {
-                    // Ação específica
+                    Navigator.pushNamed(context, AppRoutes.socialGoals);
                   }),
                 ],
               ),

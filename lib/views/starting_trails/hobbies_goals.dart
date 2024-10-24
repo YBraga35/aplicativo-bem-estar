@@ -14,7 +14,7 @@ class _HobbiesGoalsScreenState extends State<HobbiesGoalsScreen> {
     "Desenhar ou pintar semanalmente",
     "Participar de um clube de hobbies"
   ];
-  
+
   List<bool> selectedGoals = List.filled(4, false);
 
   void saveSelectedGoals() {
@@ -25,34 +25,35 @@ class _HobbiesGoalsScreenState extends State<HobbiesGoalsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F7F9),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Trilhas', style: _titleStyle()),
+            Center(
+              child: Image.asset('assets/logo.png', height: 100),
+            ),
+            const SizedBox(height: 20),
+            Text('Trilhas', style: _subtitleStyle()),
             const SizedBox(height: 20),
             Text('Hobbies', style: _subtitleStyle()),
             const SizedBox(height: 10),
             Text('Escolha agora quais metas você deseja se empenhar em cumprir.', style: _detailsStyle()),
             const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: goals.length,
-                itemBuilder: (context, index) {
-                  return _goalTile(index);
-                },
-              ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: goals.length,
+              itemBuilder: (context, index) {
+                return _goalTile(index);
+              },
             ),
+            const SizedBox(height: 20),
             _navigationButtons(context),
           ],
         ),
       ),
     );
-  }
-
-  TextStyle _titleStyle() {
-    return const TextStyle(fontFamily: 'Tangerine', fontSize: 96, color: Color(0xFF193339));
   }
 
   TextStyle _subtitleStyle() {
@@ -64,27 +65,17 @@ class _HobbiesGoalsScreenState extends State<HobbiesGoalsScreen> {
   }
 
   Widget _goalTile(int index) {
-    return GestureDetector(
-      onTap: () {
+    return CheckboxListTile(
+      title: Text(goals[index], style: const TextStyle(fontFamily: 'Raleway', fontSize: 22, color: Color(0xFF193339))),
+      value: selectedGoals[index],
+      onChanged: (bool? value) {
         setState(() {
-          selectedGoals[index] = !selectedGoals[index];
+          selectedGoals[index] = value ?? false;
         });
       },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: selectedGoals[index] ? const Color(0xFF49AB8C) : const Color(0xFF448D9C),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(goals[index], style: const TextStyle(fontFamily: 'Raleway', fontSize: 22, color: Colors.white)),
-            Icon(selectedGoals[index] ? Icons.check_circle : Icons.radio_button_unchecked, color: Colors.white),
-          ],
-        ),
-      ),
+      activeColor: const Color(0xFF49AB8C),
+      checkColor: Colors.white,
+      controlAffinity: ListTileControlAffinity.leading,
     );
   }
 
