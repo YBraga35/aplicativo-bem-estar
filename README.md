@@ -45,8 +45,15 @@ Siga os passos abaixo para instalar e executar o aplicativo em seu ambiente loca
    ```bash
    flutter pub get
    ```
+4. **Faça login no Firebase:**
+   ```bash
+   firebase login
+   ```
 
-4. **Execute o aplicativo:**
+   Obs.: neste passo, talvez seja necessário instalar o Firebase CLI com o NPM:
+   `npm install -g firebase-tools`
+
+5. **Execute o aplicativo:**
    ```bash
    flutter run
    ```
