@@ -35,7 +35,8 @@ class RegisterState extends State<Register> {
         title: const Text(
           'Zen Journey',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 45,
+            fontFamily: 'Tangerine',
             fontWeight: FontWeight.bold,
             color: Color(0xFF193339),
           ),

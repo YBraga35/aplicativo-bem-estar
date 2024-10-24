@@ -22,14 +22,11 @@ class Sobre extends StatelessWidget {
             children: [
               SizedBox(height: screenHeight * 0.05),
               Center(
-                child: const Text(
-                  'Zen Journey',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF193339),
-                  ),
-                  textAlign: TextAlign.center,
+                child:
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 400,
+                  height: 100,
                 ),
               ),
               const SizedBox(height: 20),
@@ -37,6 +34,7 @@ class Sobre extends StatelessWidget {
                 'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
                 style: TextStyle(
                   fontSize: 18,
+                  fontFamily: 'Raleway',
                   color: Color(0xFF193339),
                 ),
                 textAlign: TextAlign.justify,
@@ -47,6 +45,7 @@ class Sobre extends StatelessWidget {
                   'Propósito',
                   style: TextStyle(
                     fontSize: 28,
+                    fontFamily: 'Raleway',
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF193339),
                   ),
@@ -58,6 +57,7 @@ class Sobre extends StatelessWidget {
                 'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
                 style: TextStyle(
                   fontSize: 18,
+                  fontFamily: 'Raleway',
                   color: Color(0xFF193339),
                 ),
                 textAlign: TextAlign.justify,

@@ -26,9 +26,10 @@ class AuthenticateState extends State<Authenticate> {
       backgroundColor: const Color(0xFFF1F7F9),
       appBar: AppBar(
         title: const Text(
-          'Zen Journey',
+          'Zenjourney',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 45,
+            fontFamily: 'Tangerine',
             fontWeight: FontWeight.bold,
             color: Color(0xFF193339),
           ),
@@ -66,6 +67,7 @@ class AuthenticateState extends State<Authenticate> {
                         'Login',
                         style: TextStyle(
                           fontSize: 36,
+                          fontFamily: 'Raleway',
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF193339),
                         ),
@@ -75,6 +77,7 @@ class AuthenticateState extends State<Authenticate> {
                         'Entre na sua conta para manter seu progresso',
                         style: TextStyle(
                           fontSize: 24,
+                          fontFamily: 'Raleway',
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF448D9C),
                         ),
@@ -117,7 +120,7 @@ class AuthenticateState extends State<Authenticate> {
                           onPressed: () {},
                           child: const Text(
                             'Esqueci minha senha',
-                            style: TextStyle(color: Color(0xFF448D9C), fontSize: 16, fontFamily: 'Raleway' ),
+                            style: TextStyle(color: Color(0xFF448D9C), fontFamily: 'Raleway', fontSize: 16,),
                           ),
                         ),
                       ),
@@ -149,19 +152,12 @@ class AuthenticateState extends State<Authenticate> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Ao entrar, você pode manter seu progresso e personalizar sua jornada.',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF448D9C),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
                         const SizedBox(height: 20),
                         Center(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, AppRoutes.register);
+                            },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
                                 horizontal: screenWidth * 0.2,
