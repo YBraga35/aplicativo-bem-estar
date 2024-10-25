@@ -1,5 +1,5 @@
-import 'package:bem_estar_app/controllers/autenticacao_controle.dart';
-import 'package:bem_estar_app/views/trail_preference.dart';
+import 'package:zenjourney/controllers/autenticacao_controle.dart';
+import 'package:zenjourney/views/trail_preference.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
