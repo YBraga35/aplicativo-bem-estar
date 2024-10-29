@@ -34,6 +34,8 @@ ios/Flutter/Generated.xconfig
 macos/Flutter/Generated.xconfig
 ios/Flutter/flutter_export_environment.sh
 macos/Flutter/flutter_export_environment.sh
+macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+ios/Runner/GeneratedPluginRegistrant.m
 
 # Symbolication related
 app.*.symbols
