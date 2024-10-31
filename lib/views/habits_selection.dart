@@ -95,6 +95,7 @@ class HabitosScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
+              SizedBox(height: 10,)
             ],
           ),
         ),
@@ -127,6 +128,7 @@ class HabitosScreen extends StatelessWidget {
   // Widget para cada botão de hábito
   Widget buildHabitoButton(String habito) {
     return Container(
+      width: 300,
       margin: EdgeInsets.only(bottom: 10),
       child: ElevatedButton(
         onPressed: () {
@@ -134,28 +136,33 @@ class HabitosScreen extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF193339),
+          alignment: Alignment.centerLeft,
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              habito,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontFamily: 'Raleway',
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                habito,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontFamily: 'Raleway',
+                ),
               ),
-            ),
-            Icon(
-              Icons.add_circle_outline,
-              color: Colors.white,
-            ),
-          ],
+              SizedBox(width: 10,),
+              Icon(
+                Icons.add_circle_outline,
+                color: Colors.white,
+              ),
+            ],
         ),
+        )
       ),
     );
   }
