@@ -5,7 +5,7 @@ import '../views/start/authenticate.dart';
 import '../views/start/register.dart';
 import '../views/starting_trails/trail_preference.dart';
 import '../views/starting_trails/habits_selection.dart';
-import '../views/starting_trails/home.dart'; // Import the new home screen
+import '../views/home/home.dart'; // Import the new home screen
 
 class AppRoutes {
   static const String boasVindas = '/';
