@@ -1,154 +1,189 @@
 import 'package:flutter/material.dart';
-import '/routes/routes.dart';
+import '/views/starting_trails/habits_selection.dart'; // Importar a nova tela de hábitos
 
-class Trilhas extends StatelessWidget {
+class Trilhas extends StatefulWidget {
   const Trilhas({super.key});
+
+  @override
+  _TrilhasState createState() => _TrilhasState();
+}
+
+class _TrilhasState extends State<Trilhas> {
+  List<bool> selectedButtons = List.generate(5, (index) => false);
+
+  bool anyButtonSelected() {
+    return selectedButtons.contains(true);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE0E6EA), // Cor de fundo da tela
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Logo
-          Center(
-            child: SizedBox(
-              width: 300,
-              height: 150,
-              child: Image.asset(
-                'assets/images/logo.png',
+      backgroundColor: Color(0xFFE0E6EA),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Image.asset(
+              'assets/images/logo.png',
+              width: 150,
+              height: 60,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Trilhas',
+              style: TextStyle(
+                fontSize: 20,
+                color: Color(0xFF448D9C),
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-
-          // Título "Trilhas"
-          const Text(
-            'Trilhas',
-            style: TextStyle(
-              fontSize: 30,
-              color: Color(0xFF448D9C),
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.bold,
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontFamily: 'Raleway',
+                  ),
+                  children: [
+                    TextSpan(text: 'Selecione no mínimo'),
+                    TextSpan(
+                      text: ' 1 trilha ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(text: 'para visualizar tarefas relacionadas.\n\n'),
+                    TextSpan(
+                      text: 'Não se preocupe ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: ', você pode\n alterar as informações depois.',
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 5),
-
-          // Texto descritivo
-          const Text(
-            'Aqui você escolherá qual\nseu progresso ao longo\ndo caminho',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-              fontFamily: 'Raleway',
-            ),
-          ),
-          const SizedBox(height: 30), // Espaço entre o texto e os botões
-
-          // Botões de trilhas centralizados
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Wrap(
-                spacing: 20.0,
-                runSpacing: 14.0,
-                alignment: WrapAlignment.center,
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 children: [
-                  buildElevatedButton(Icons.fitness_center, 'Físico', () {
-                    Navigator.pushNamed(context, AppRoutes.physicalGoals);
-                  }),
-                  buildElevatedButton(Icons.bedtime, 'Sono', () {
-                    Navigator.pushNamed(context, AppRoutes.sleepGoals);
-                  }),
-                  buildElevatedButton(Icons.restaurant, 'Nutrição', () {
-                    Navigator.pushNamed(context, AppRoutes.nutritionGoals);
-                  }),
-                  buildElevatedButton(Icons.music_note, 'Hobbies', () {
-                    Navigator.pushNamed(context, AppRoutes.hobbiesGoals);
-                  }),
-                  buildElevatedButton(Icons.groups, 'Social', () {
-                    Navigator.pushNamed(context, AppRoutes.socialGoals);
-                  }),
+                  buildTrailSelection('Fitness', Icons.fitness_center, 0),
+                  buildTrailSelection('Sono', Icons.bedtime, 1),
+                  buildTrailSelection('Alimentação', Icons.restaurant, 2),
+                  buildTrailSelection('Hobbies', Icons.music_note, 3),
+                  buildTrailSelection('Social', Icons.groups, 4),
                 ],
               ),
             ),
-          ),
-
-          // Botão de Continuar
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ElevatedButton(
+            SizedBox(height: 10),
+            ElevatedButton(
               onPressed: () {
-                // Ação do botão
+                if (!anyButtonSelected()) {
+                  _showPopup(context);
+                } else {
+                  List<String> selectedTrilhas = [];
+                  if (selectedButtons[0]) selectedTrilhas.add('Fitness');
+                  if (selectedButtons[1]) selectedTrilhas.add('Sono');
+                  if (selectedButtons[2]) selectedTrilhas.add('Alimentação');
+                  if (selectedButtons[3]) selectedTrilhas.add('Hobbies');
+                  if (selectedButtons[4]) selectedTrilhas.add('Social');
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          HabitsScreen(trails: selectedTrilhas),
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF193339),
-                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                backgroundColor: Color(0xFF193339),
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Continuar',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   color: Colors.white,
+                  fontFamily: 'Raleway',
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Função para construir os botões
-Widget buildElevatedButton(IconData icon, String label, void Function() onPressed) {
-  return SizedBox(
-    width: 120,
-    height: 120,
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 5,
-            offset: const Offset(2, 2),
-          ),
-        ],
-      ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF448D9C),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 40,
-              color: const Color.fromARGB(255, 5, 54, 48),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-                fontFamily: 'Raleway',
-              ),
-            ),
+            SizedBox(height: 20),
           ],
         ),
       ),
-    ),
-  );
+    );
+  }
+
+  Widget buildTrailSelection(String trailName, IconData icon, int index) {
+    bool isSelected = selectedButtons[index];
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: Card(
+          color: isSelected ? Color(0xFF193339) : Color(0xFF448D9C),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: EdgeInsets.symmetric(vertical: 5),
+          elevation: 3,
+          child: ListTile(
+            leading: Icon(
+              icon,
+              size: 40,
+              color: isSelected ? Color(0xFF448D9C) : Colors.white,
+            ),
+            title: Text(
+              trailName,
+              style: TextStyle(
+                fontSize: 18,
+                color: isSelected ? Colors.white : Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Raleway',
+              ),
+            ),
+            trailing: isSelected
+                ? Icon(
+                    Icons.check_circle,
+                    color: Colors.greenAccent,
+                  )
+                : null,
+            onTap: () {
+              setState(() {
+                selectedButtons[index] = !isSelected;
+              });
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Selecione no mínimo 1 trilha.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Fechar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

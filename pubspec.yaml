@@ -40,6 +40,7 @@ dependencies:
   logger: ^2.4.0
   firebase_auth: ^5.3.1
   flutter_masked_text2: 0.9.1
+  
 
 dev_dependencies:
   flutter_test:

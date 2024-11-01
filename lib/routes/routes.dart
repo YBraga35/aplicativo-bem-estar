@@ -4,12 +4,8 @@ import '../views/start/sobre.dart';
 import '../views/start/authenticate.dart';
 import '../views/start/register.dart';
 import '../views/starting_trails/trail_preference.dart';
-import '../views/starting_trails/physical_goals.dart';
-import '../views/starting_trails/hobbies_goals.dart';
-import '../views/starting_trails/nutrition_goals.dart';
-import '../views/starting_trails/sleep_goals.dart';
-import '../views/starting_trails/social_goals.dart';
-// Importe outras telas conforme necessário
+import '../views/starting_trails/habits_selection.dart';
+import '../views/starting_trails/home.dart'; // Import the new home screen
 
 class AppRoutes {
   static const String boasVindas = '/';
@@ -17,36 +13,25 @@ class AppRoutes {
   static const String authenticate = '/authenticate';
   static const String register = '/register';
   static const String trailPreference = '/trailPreference';
-  static const String physicalGoals = '/physicalGoals';
-  static const String hobbiesGoals = '/hobbiesGoals';
-  static const String nutritionGoals = '/nutritionGoals';
-  static const String sleepGoals = '/sleepGoals';
-  static const String socialGoals = '/socialGoals';
-  // Adicione outras rotas conforme necessário
+  static const String habitsSelection = '/habitsSelection';
+  static const String home = '/home'; // Add the new route
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case boasVindas:
-        return MaterialPageRoute(builder: (_) => const BoasVindas());
+        return _createRoute(const BoasVindas());
       case sobre:
-        return MaterialPageRoute(builder: (_) => const Sobre());
+        return _createRoute(const Sobre());
       case authenticate:
-        return MaterialPageRoute(builder: (_) => const Authenticate());
+        return _createRoute(const Authenticate());
       case register:
-        return MaterialPageRoute(builder: (_) => const Register());
+        return _createRoute(const Register());
       case trailPreference:
-        return MaterialPageRoute(builder: (_) => const Trilhas());
-      case physicalGoals:
-        return MaterialPageRoute(builder: (_) => const PhysicalGoalsScreen());
-      case hobbiesGoals:
-        return MaterialPageRoute(builder: (_) => const HobbiesGoalsScreen());
-      case nutritionGoals:
-        return MaterialPageRoute(builder: (_) => const NutritionGoalsScreen());
-      case sleepGoals:
-        return MaterialPageRoute(builder: (_) => const SleepGoalsScreen());
-      case socialGoals:
-        return MaterialPageRoute(builder: (_) => const SocialGoalsScreen());
-      // Adicione outras rotas conforme necessário
+        return _createRoute(const Trilhas());
+      case habitsSelection:
+        return _createRoute(HabitsScreen(trails: settings.arguments as List<String>));
+      case home:
+        return _createRoute(const HomeScreen()); // Add the new route case
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -56,5 +41,24 @@ class AppRoutes {
           ),
         );
     }
+  }
+
+  static PageRouteBuilder _createRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
   }
 }

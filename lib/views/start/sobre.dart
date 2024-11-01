@@ -10,84 +10,169 @@ class Sobre extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sobre'),
-        backgroundColor: const Color(0xFF448D9C),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: screenHeight * 0.05),
-              Center(
-                child:
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 400,
-                  height: 100,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
+      backgroundColor: Color(0xFFE0E6EA),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        width: screenWidth,
+        height: screenHeight,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              width: screenWidth * 0.6,
+              height: screenHeight * 0.15,
+            ),
+            RichText(
+              textAlign: TextAlign.justify,
+              text: TextSpan(
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontFamily: 'Raleway',
                   color: Color(0xFF193339),
                 ),
-                textAlign: TextAlign.justify,
-              ),
-              SizedBox(height: screenHeight * 0.05),
-              Center(
-                child: const Text(
-                  'Propósito',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF193339),
+                children: [
+                  TextSpan(text: 'O '),
+                  TextSpan(
+                    text: 'Zen Journey',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  TextSpan(text: ' é um '),
+                  TextSpan(
+                    text: 'aplicativo',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                      text:
+                          ' dedicado a ajudar você a alcançar uma '),
+                  TextSpan(
+                    text: 'vida melhor',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' através de '),
+                  TextSpan(
+                    text: 'pequenas mudanças diárias',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '. Nossa '),
+                  TextSpan(
+                    text: 'missão',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' é guiá-lo em uma '),
+                  TextSpan(
+                    text: 'jornada',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' de '),
+                  TextSpan(
+                    text: 'autodescoberta',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' e '),
+                  TextSpan(
+                    text: 'bem-estar',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ', fornecendo '),
+                  TextSpan(
+                    text: 'ferramentas',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' e '),
+                  TextSpan(
+                    text: 'recursos',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' para melhorar sua '),
+                  TextSpan(
+                    text: 'saúde mental, física e emocional',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '.'),
+                ],
               ),
-              const SizedBox(height: 10),
-              const Text(
-                'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
+            ),
+            Text(
+              'Propósito',
+              style: TextStyle(
+                fontSize: 24,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF193339),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            RichText(
+              textAlign: TextAlign.justify,
+              text: TextSpan(
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontFamily: 'Raleway',
                   color: Color(0xFF193339),
                 ),
-                textAlign: TextAlign.justify,
+                children: [
+                  TextSpan(text: 'Nosso '),
+                  TextSpan(
+                    text: 'propósito',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                      text:
+                          ' é criar um ambiente onde você possa crescer e se desenvolver de maneira '),
+                  TextSpan(
+                    text: 'saudável',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' e '),
+                  TextSpan(
+                    text: 'sustentável',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                      text:
+                          '. Acreditamos que '),
+                  TextSpan(
+                    text: 'pequenas mudanças',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                      text:
+                          ' podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa '),
+                  TextSpan(
+                    text: 'jornada',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '.'),
+                ],
               ),
-              SizedBox(height: screenHeight * 0.05),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.authenticate);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.2,
-                      vertical: 15,
-                    ),
-                    backgroundColor: const Color(0xFF448D9C),
-                  ),
-                  child: const Text(
-                    'Criar Conta',
-                    style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.authenticate);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.2,
+                  vertical: 15,
+                ),
+                backgroundColor: const Color(0xFF448D9C),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
-            ],
-          ),
+              child: const Text(
+                'Criar Conta',
+                style: TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+          ],
         ),
       ),
     );
