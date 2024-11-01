@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class HabitTrackingScreen extends StatelessWidget {
   const HabitTrackingScreen({super.key});
@@ -113,18 +113,19 @@ class HabitTrackingScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            height: 120,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            viewportFraction: 1.0,
+                        child: CarouselSlider.builder(
+                          slideBuilder: (index) {
+                            return _buildCarouselItem(
+                              'Trilha ${index + 1}',
+                              _getSubtitle(index),
+                            );
+                          },
+                          unlimitedMode: true,
+                          slideTransform: CubeTransform(),
+                          slideIndicator: CircularSlideIndicator(
+                            padding: EdgeInsets.only(bottom: 16),
                           ),
-                          items: [
-                            _buildCarouselItem('Trilha 1', '80% de Completiude'),
-                            _buildCarouselItem('Trilha 2', '90% de Comprometimento'),
-                            _buildCarouselItem('Trilha 3', '70% de Completiude'),
-                          ],
+                          itemCount: 3,
                         ),
                       ),
                     ),
@@ -301,5 +302,18 @@ class HabitTrackingScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static String _getSubtitle(int index) {
+    switch (index) {
+      case 0:
+        return '80% de Completiude';
+      case 1:
+        return '90% de Comprometimento';
+      case 2:
+        return '70% de Completiude';
+      default:
+        return '';
+    }
   }
 }

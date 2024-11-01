@@ -11,161 +11,60 @@ class Sobre extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Color(0xFFE0E6EA),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        width: screenWidth,
-        height: screenHeight,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // Center the content vertically
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/logo.png',
+            // Logo
+            Container(
               width: screenWidth * 0.6,
               height: screenHeight * 0.15,
-            ),
-            RichText(
-              textAlign: TextAlign.justify,
-              text: TextSpan(
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Raleway',
-                  color: Color(0xFF193339),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/logo.png'),
+                  fit: BoxFit.contain,
                 ),
-                children: [
-                  TextSpan(text: 'O '),
-                  TextSpan(
-                    text: 'Zen Journey',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' é um '),
-                  TextSpan(
-                    text: 'aplicativo',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                      text:
-                          ' dedicado a ajudar você a alcançar uma '),
-                  TextSpan(
-                    text: 'vida melhor',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' através de '),
-                  TextSpan(
-                    text: 'pequenas mudanças diárias',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: '. Nossa '),
-                  TextSpan(
-                    text: 'missão',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' é guiá-lo em uma '),
-                  TextSpan(
-                    text: 'jornada',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' de '),
-                  TextSpan(
-                    text: 'autodescoberta',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' e '),
-                  TextSpan(
-                    text: 'bem-estar',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ', fornecendo '),
-                  TextSpan(
-                    text: 'ferramentas',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' e '),
-                  TextSpan(
-                    text: 'recursos',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' para melhorar sua '),
-                  TextSpan(
-                    text: 'saúde mental, física e emocional',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: '.'),
-                ],
               ),
             ),
-            Text(
-              'Propósito',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF193339),
-              ),
-              textAlign: TextAlign.center,
+            SizedBox(height: 15),
+            // Sobre o Zen Journey
+            _buildSectionTitle('O Zen Journey'),
+            SizedBox(height: 8),
+            _buildSectionContent(
+              'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
             ),
-            RichText(
-              textAlign: TextAlign.justify,
-              text: TextSpan(
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Raleway',
-                  color: Color(0xFF193339),
-                ),
-                children: [
-                  TextSpan(text: 'Nosso '),
-                  TextSpan(
-                    text: 'propósito',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                      text:
-                          ' é criar um ambiente onde você possa crescer e se desenvolver de maneira '),
-                  TextSpan(
-                    text: 'saudável',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: ' e '),
-                  TextSpan(
-                    text: 'sustentável',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                      text:
-                          '. Acreditamos que '),
-                  TextSpan(
-                    text: 'pequenas mudanças',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                      text:
-                          ' podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa '),
-                  TextSpan(
-                    text: 'jornada',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: '.'),
-                ],
-              ),
+            SizedBox(height: 15),
+            // Propósito
+            _buildSectionTitle('Propósito'),
+            SizedBox(height: 8),
+            _buildSectionContent(
+              'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
             ),
+            Spacer(),
+            // Botão Criar Conta
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, AppRoutes.authenticate);
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.2,
-                  vertical: 15,
+                  horizontal: screenWidth * 0.25,
+                  vertical: 12,
                 ),
-                backgroundColor: const Color(0xFF448D9C),
+                backgroundColor: Color(0xFF448D9C),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
+                elevation: 5,
               ),
-              child: const Text(
+              child: Text(
                 'Criar Conta',
                 style: TextStyle(
                   fontFamily: 'Raleway',
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -176,5 +75,116 @@ class Sobre extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Widget para o título das seções
+  Widget _buildSectionTitle(String title) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 22,
+          fontFamily: 'Raleway',
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF193339),
+        ),
+      ),
+    );
+  }
+
+  // Widget para o conteúdo das seções com palavras em negrito
+  Widget _buildSectionContent(String content) {
+    return Container(
+      padding: EdgeInsets.all(15.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Raleway',
+            color: Color(0xFF193339),
+            height: 1.5,
+          ),
+          children: _buildRichText(content),
+        ),
+        textAlign: TextAlign.justify,
+      ),
+    );
+  }
+
+  // Função para criar TextSpans com palavras em negrito
+  List<TextSpan> _buildRichText(String content) {
+    // Lista de palavras a serem destacadas em negrito
+    List<String> boldWords = [
+      'Zen Journey',
+      'aplicativo',
+      'missão',
+      'autodescoberta',
+      'bem-estar',
+      'saúde mental',
+      'física',
+      'emocional',
+      'propósito',
+      'ambiente',
+      'saudável',
+      'sustentável',
+      'mudanças',
+      'impacto',
+      'jornada',
+    ];
+
+    List<TextSpan> spans = [];
+    String remaining = content;
+
+    while (remaining.isNotEmpty) {
+      // Encontrar o próximo índice de qualquer palavra em negrito
+      int nearestIndex = remaining.length;
+      String? nearestWord;
+      for (String word in boldWords) {
+        int index = remaining.toLowerCase().indexOf(word.toLowerCase());
+        if (index != -1 && index < nearestIndex) {
+          nearestIndex = index;
+          nearestWord = word;
+        }
+      }
+
+      if (nearestWord == null) {
+        // Nenhuma palavra em negrito encontrada, adicionar o restante do texto
+        spans.add(TextSpan(text: remaining));
+        break;
+      }
+
+      if (nearestIndex > 0) {
+        // Adicionar o texto antes da palavra em negrito
+        spans.add(TextSpan(text: remaining.substring(0, nearestIndex)));
+      }
+
+      // Adicionar a palavra em negrito
+      int wordLength = nearestWord.length;
+      spans.add(
+        TextSpan(
+          text: remaining.substring(nearestIndex, nearestIndex + wordLength),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
+
+      // Atualizar o texto restante
+      remaining = remaining.substring(nearestIndex + wordLength);
+    }
+
+    return spans;
   }
 }

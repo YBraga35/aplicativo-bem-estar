@@ -131,6 +131,7 @@ class _TrilhasState extends State<Trilhas> {
     return Center(
       child: Container(
         constraints: BoxConstraints(maxWidth: 300),
+        margin: EdgeInsets.only(top: 10), // Aumenta a margem superior
         child: Card(
           color: isSelected ? Color(0xFF193339) : Color(0xFF448D9C),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -146,7 +147,7 @@ class _TrilhasState extends State<Trilhas> {
               trailName,
               style: TextStyle(
                 fontSize: 18,
-                color: isSelected ? Colors.white : Colors.white,
+                color: Colors.white, // Corrigido para manter a cor consistente
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Raleway',
               ),
