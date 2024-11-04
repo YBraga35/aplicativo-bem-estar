@@ -1,5 +1,4 @@
 import 'package:zenjourney/controllers/autenticacao_controle.dart';
-import 'package:zenjourney/views/starting_trails/trail_preference.dart';
 import 'package:flutter/material.dart';
 import '/routes/routes.dart';
 
