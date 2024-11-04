@@ -45,11 +45,24 @@ Siga os passos abaixo para instalar e executar o aplicativo em seu ambiente loca
    ```bash
    flutter pub get
    ```
+4. **Faça login no Firebase:**
+   ```bash
+   firebase login
+   ```
 
-4. **Execute o aplicativo:**
+   Obs.: neste passo, talvez seja necessário instalar o Firebase CLI com o NPM:
+   `npm install -g firebase-tools`
+
+5. **Execute o aplicativo:**
    ```bash
    flutter run
    ```
+
+### Ferramentas Devs
+
+Seguem abaixo as intruções específicas sobre a instalação das ferramentas devidas, desde VS Code, Flutter (SDK), Android Studio e todo o mais necessário:
+Apenas seguir o link para visualizar o recurso:
+[Ferramentas Zenjourney.docs](https://docs.google.com/presentation/d/178lnvPqWfYygxgik9JA90xXOM3qPyLUQG8NSBTUw1iw/edit?usp=sharing)
 
 ## Uso
 

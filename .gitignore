@@ -30,6 +30,10 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+ios/Flutter/Generated.xconfig
+macos/Flutter/Generated.xconfig
+ios/Flutter/flutter_export_environment.sh
+macos/Flutter/flutter_export_environment.sh
 
 # Symbolication related
 app.*.symbols
@@ -41,3 +45,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#Firebase
+android/app/google-services.json
+lib/firebase_options.dart
