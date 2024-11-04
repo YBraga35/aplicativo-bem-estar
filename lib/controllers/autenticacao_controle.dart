@@ -17,4 +17,29 @@ class AutenticacaoControle {
       return e.message;
     }
   }
+
+  Future<String?> cadastrarUsuario({
+    required String nome,
+    required String email,
+    required String telefone,
+    required String pronomes,
+    required int idade,
+    required String senha,
+  }) async {
+    try {
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: senha,
+      );
+
+      // Atualizar o perfil do usuário
+      await userCredential.user?.updateDisplayName(nome);
+      await userCredential.user?.updatePhotoURL('URL_DA_FOTO_DE_PERFIL'); // Atualize com a URL da foto de perfil
+
+      logger.i("Usuário cadastrado com sucesso!");
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
 }

@@ -39,10 +39,15 @@ dependencies:
   firebase_core: ^3.6.0
   logger: ^2.4.0
   firebase_auth: ^5.3.1
+  flutter_masked_text2: 0.9.1
+  flutter_carousel_slider: ^1.1.0
+  intl: ^0.18.0 
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+    
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -77,6 +82,11 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/frutas.png
+    - assets/icons/preferences.png
+    - assets/icons/tasks.png
+    - assets/icons/habits.png
+    - assets/icons/reading.png
+    - assets/icons/profile.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
