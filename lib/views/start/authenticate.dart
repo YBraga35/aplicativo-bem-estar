@@ -2,7 +2,6 @@ import 'package:zenjourney/controllers/autenticacao_controle.dart';
 import 'package:zenjourney/views/trail_preference.dart';
 import 'package:flutter/material.dart';
 import '/routes/routes.dart';
-import '/controllers/autenticacao_controle.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});
