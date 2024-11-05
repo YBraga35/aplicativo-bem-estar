@@ -7,7 +7,7 @@ class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
 
   @override
-  State<HabitTrackingScreen> createState() => _HabitTrackingScreenState();
+  _HabitTrackingScreenState createState() => _HabitTrackingScreenState();
 }
 
 class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
@@ -26,6 +26,12 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
 
   final List<Map<String, dynamic>> _newHabitsList = [];
   final List<bool> _isCheckedList = [];
+
+  void deletarHabito(int index) {
+    setState(() {
+      _newHabitsList.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,6 +282,45 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                     });
                                     // Atualizar estado do checkbox
                                   },
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: false, // Estado do checkbox
+                                      onChanged: (bool? value) {
+                                        // Atualizar estado do checkbox
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete, color: Color(0xFF193339)),
+                                      onPressed: () {
+                                        // Exibir mensagem de confirmação antes de deletar
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Confirmar Deleção"),
+                                              content: Text("Você tem certeza que deseja deletar este hábito?"),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text("Cancelar"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text("Deletar"),
+                                                  onPressed: () {
+                                                    deletarHabito(index);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
