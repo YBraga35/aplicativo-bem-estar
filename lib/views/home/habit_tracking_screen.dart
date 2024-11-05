@@ -5,12 +5,24 @@ class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
 
   @override
-  State<HabitTrackingScreen> createState() => _HabitTrackingScreenState();
+  _HabitTrackingScreenState createState() => _HabitTrackingScreenState();
 }
 
 class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
-  List<bool> isCheckedList = List.generate(
-      5, (index) => false); // Tamanho da lista = Número de hábitos diários
+  // Lista local de hábitos (simulação)
+  List<Map<String, String>> listaDeHabitos = [
+    {'titulo': 'Hábito 1', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 2', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 3', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 4', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 5', 'trilha': 'Trilha do Hábito'},
+  ];
+
+  void deletarHabito(int index) {
+    setState(() {
+      listaDeHabitos.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +200,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                   // Listagem de Hábitos
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 5, // Número de hábitos do dia
+                      itemCount: listaDeHabitos.length, // Número de hábitos do dia
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -228,7 +240,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Título do Hábito',
+                                      listaDeHabitos[index]['titulo']!,
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontFamily: 'Raleway',
@@ -238,7 +250,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      'Trilha do Hábito',
+                                      listaDeHabitos[index]['trilha']!,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Raleway',
@@ -247,16 +259,45 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                     ),
                                   ],
                                 ),
-                                IconButton(                                  
-                                  icon: Image.asset(
-                                    isCheckedList[index]? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      isCheckedList[index] = !isCheckedList[index]; // Alterna o estado
-                                    });
-                                    // Atualizar estado do checkbox
-                                  },
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: false, // Estado do checkbox
+                                      onChanged: (bool? value) {
+                                        // Atualizar estado do checkbox
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete, color: Color(0xFF193339)),
+                                      onPressed: () {
+                                        // Exibir mensagem de confirmação antes de deletar
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Confirmar Deleção"),
+                                              content: Text("Você tem certeza que deseja deletar este hábito?"),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text("Cancelar"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text("Deletar"),
+                                                  onPressed: () {
+                                                    deletarHabito(index);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
