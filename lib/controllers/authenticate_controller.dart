@@ -2,16 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 
-class AutenticacaoControle {
+class AuthenticateController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final Logger logger = Logger();
 
   // Método para login com e-mail e senha
-  Future<String?> loginUsuarios({
-    required String email,
-    required String senha,
-  }) async {
+  Future<String?> loginUsers(
+      {required String email, required String senha}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -24,7 +22,7 @@ class AutenticacaoControle {
     }
   }
 
-  Future<String?> cadastrarUsuario({
+  Future<String?> signUpUsers({
     required String nome,
     required String email,
     required String senha,
