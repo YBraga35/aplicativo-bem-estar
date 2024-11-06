@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
-class HabitTrackingScreen extends StatelessWidget {
+class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
+
+  @override
+  State<HabitTrackingScreen> createState() => _HabitTrackingScreenState();
+}
+
+class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
+  List<bool> isCheckedList = List.generate(
+      5, (index) => false); // Tamanho da lista = Número de hábitos diários
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +151,8 @@ class HabitTrackingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.calendar_today, color: Color(0xFF193339)),
+                        icon: Icon(Icons.calendar_today,
+                            color: Color(0xFF193339)),
                         onPressed: () {
                           // Navegar para o calendário
                         },
@@ -159,7 +168,8 @@ class HabitTrackingScreen extends StatelessWidget {
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.filter_list, color: Color(0xFF193339)),
+                            icon: Icon(Icons.filter_list,
+                                color: Color(0xFF193339)),
                             onPressed: () {
                               // Filtrar hábitos
                             },
@@ -188,7 +198,8 @@ class HabitTrackingScreen extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text('Detalhes do Hábito'),
-                                  content: Text('Descrição e detalhes do hábito.'),
+                                  content:
+                                      Text('Descrição e detalhes do hábito.'),
                                   actions: [
                                     TextButton(
                                       child: Text('Fechar'),
@@ -205,16 +216,10 @@ class HabitTrackingScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(bottom: 10),
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
-                              color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
+                              color: isCheckedList[index]
+                                  ? Color(0xFFB8FFC7)
+                                  : Colors.white,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,9 +247,14 @@ class HabitTrackingScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Checkbox(
-                                  value: false, // Estado do checkbox
-                                  onChanged: (bool? value) {
+                                IconButton(                                  
+                                  icon: Image.asset(
+                                    isCheckedList[index]? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isCheckedList[index] = !isCheckedList[index]; // Alterna o estado
+                                    });
                                     // Atualizar estado do checkbox
                                   },
                                 ),

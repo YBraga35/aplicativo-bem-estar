@@ -1,4 +1,4 @@
-import 'package:zenjourney/controllers/autenticacao_controle.dart';
+import 'package:zenjourney/controllers/authenticate_controller.dart';
 import 'package:flutter/material.dart';
 import '/routes/routes.dart';
 
@@ -10,28 +10,28 @@ class Authenticate extends StatefulWidget {
 }
 
 class AuthenticateState extends State<Authenticate> {
-  final AutenticacaoControle _autenticacaoControle = AutenticacaoControle();
+  final AuthenticateController _autenticacaoControle = AuthenticateController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
   @override
   void dispose() {
     _emailController.dispose();
-    _senhaController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
-  void _loginEmailSenha() async {
+  void _loginEmailPassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
       try {
-        await _autenticacaoControle.loginUsuarios(
+        await _autenticacaoControle.loginUsers(
           email: _emailController.text,
-          senha: _senhaController.text,
+          senha: _passwordController.text,
         );
         if (mounted) {
           Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
@@ -173,7 +173,7 @@ class AuthenticateState extends State<Authenticate> {
                               ),
                               const SizedBox(height: 8),
                               TextFormField(
-                                controller: _senhaController,
+                                controller: _passwordController,
                                 decoration: InputDecoration(
                                   labelText: 'Senha',
                                   labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
@@ -215,7 +215,7 @@ class AuthenticateState extends State<Authenticate> {
                             Column(
                               children: [
                                 ElevatedButton(
-                                  onPressed: _loginEmailSenha,
+                                  onPressed: _loginEmailPassword,
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: screenWidth * 0.1,
