@@ -151,7 +151,7 @@ class HabitTrackingScreen extends StatelessWidget {
                       Text(
                         'Goals faltantes para hoje: 3',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontFamily: 'Raleway',
                           color: Color(0xFF193339),
                         ),
