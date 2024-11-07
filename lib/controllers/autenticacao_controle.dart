@@ -24,6 +24,42 @@ class AutenticacaoControle {
     }
   }
 
+  Future<String?> cadastrarUsuario({
+    required String nome,
+    required String email,
+    required String senha,
+  }) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: senha,
+      );
+      logger.i("Login efetuado com sucesso!");
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+  // Método para login com Google
+  Future<User?> loginComGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential usuarioCredential = await _firebaseAuth.signInWithCredential(credential);
+      logger.i("Login efetuado com sucesso com Google!");
+      return usuarioCredential.user;
+    } catch (e) {
+      logger.e("Erro ao fazer login com Google: $e");
+      return null;
+    }
+  }
+
   // Método para login com Google
   Future<User?> loginComGoogle() async {
     try {
