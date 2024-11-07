@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HabitosScreen extends StatelessWidget {
   final List<String> trilhas;
 
-  HabitosScreen({required this.trilhas});
+  const HabitosScreen({super.key, required this.trilhas});
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +170,8 @@ class HabitosScreen extends StatelessWidget {
 
 // Substitua pela próxima tela para onde o usuário será redirecionado
 class ProximaTela extends StatelessWidget {
+  const ProximaTela({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
