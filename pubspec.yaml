@@ -43,6 +43,7 @@ dependencies:
   flutter_masked_text2: 0.9.1
   flutter_carousel_slider: ^1.1.0
   intl: ^0.18.0 
+  table_calendar: ^3.0.8
   
 
 dev_dependencies:
