@@ -119,7 +119,7 @@ class HabitosScreen extends StatelessWidget {
         ),
         SizedBox(height: 10),
         // Botões para cada hábito
-        ...habitos.map((habito) => buildHabitoButton(habito)).toList(),
+        ...habitos.map((habito) => buildHabitoButton(habito)),
         SizedBox(height: 20),
       ],
     );
