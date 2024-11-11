@@ -809,7 +809,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         _isFirstConfirmation = false;
                       });
                     } else {
-                      Navigator.of(ctx).pop();
+                      Navigator.pushReplacementNamed(context, AppRoutes.authenticate);
                       // TODO: Implementar funcionalidade de exclusão quando o banco estiver pronto
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Conta excluída (simulação).')),
