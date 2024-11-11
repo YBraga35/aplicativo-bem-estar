@@ -23,7 +23,6 @@ class ReadingAreaScreen extends StatelessWidget {
         ),
         Center(
           child: SizedBox(
-              height: 75,
               width: 290,
               child: const Text(
                 'Leia artigos, informações e curiosidades, todas com embasamento científico',
