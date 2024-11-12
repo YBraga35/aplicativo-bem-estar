@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class HabitTrackingScreen extends StatefulWidget {
@@ -9,6 +10,14 @@ class HabitTrackingScreen extends StatefulWidget {
 }
 
 class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
+  String? _selectedTrack;
+  final List<String> _tracks = [
+    'Fitness',
+    'Sono',
+    'Alimentação',
+    'Hobbies',
+    'Social'
+  ];
   List<bool> isCheckedList = List.generate(
       5, (index) => false); // Tamanho da lista = Número de hábitos diários
 
@@ -247,13 +256,16 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                     ),
                                   ],
                                 ),
-                                IconButton(                                  
+                                IconButton(
                                   icon: Image.asset(
-                                    isCheckedList[index]? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
+                                    isCheckedList[index]
+                                        ? 'assets/icons/check.png'
+                                        : 'assets/icons/uncheck.png', // Altera o ícone com base no estado
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      isCheckedList[index] = !isCheckedList[index]; // Alterna o estado
+                                      isCheckedList[index] = !isCheckedList[
+                                          index]; // Alterna o estado
                                     });
                                     // Atualizar estado do checkbox
                                   },
@@ -273,11 +285,188 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          _createHabit(context);
           // Adicionar novo hábito
         },
         backgroundColor: const Color(0xFF448D9C),
         child: const Icon(Icons.add, color: Colors.white),
       ),
+    );
+  }
+
+  void _createHabit(BuildContext context) {
+    setState(() {
+      _selectedTrack = null;
+    });
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Novo Hábito',
+                      style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF448D9C),
+                      ),
+                    ),
+                    Text(
+                      'Crie seus próprios hábitos para ter uma experiência personalizada',
+                      style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 18,
+                        color: Color(0xFF193339),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Hábito',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 18,
+                            color: Color(0xFF193339),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start,
+                        )),
+                    TextField(
+                      cursorColor: Color(0xFF193339),
+                      inputFormatters: [LengthLimitingTextInputFormatter(45)],
+                      decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          labelText: 'Nome do Hábito',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                  color: Color(0xFF193339), width: 2))),
+                    ),
+                    SizedBox(height: 15),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Trilha',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 18,
+                            color: Color(0xFF193339),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start,
+                        )),
+                    DropdownButtonFormField<String>(
+                      value: _selectedTrack,
+                      hint: const Text('Selecione a trilha'),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedTrack = newValue;
+                        });
+                      },
+                      items: _tracks.map((String track) {
+                        return DropdownMenuItem<String>(
+                          value: track,
+                          child: Text(track),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                color: Color(0xFF193339),
+                                width: 2,
+                              ))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, selecione a trilha';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Descrição',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 18,
+                            color: Color(0xFF193339),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start,
+                        )),
+                    TextField(
+                      maxLines: 4,
+                      cursorColor: Color(0xFF193339),
+                      inputFormatters: [LengthLimitingTextInputFormatter(116)],
+                      decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                  color: Color(0xFF193339), width: 2))),
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF193339),
+                                    fixedSize: Size(125, 50)),
+                                child: Text('Voltar',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Raleway',
+                                        fontSize: 18)))),
+                        Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF448D9C),
+                                    fixedSize: Size(125, 50)),
+                                child: Text('Salvar',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Raleway',
+                                        fontSize: 18))))
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
+      },
     );
   }
 
