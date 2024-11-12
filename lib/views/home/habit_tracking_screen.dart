@@ -293,9 +293,14 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   },
                                 Row(
                                   children: [
-                                    Checkbox(
-                                      value: false, // Estado do checkbox
-                                      onChanged: (bool? value) {
+                                    IconButton(                                  
+                                      icon: Image.asset(
+                                        isCheckedList[index]? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          isCheckedList[index] = !isCheckedList[index]; // Alterna o estado
+                                        });
                                         // Atualizar estado do checkbox
                                       },
                                     ),
