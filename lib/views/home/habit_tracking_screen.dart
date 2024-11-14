@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HabitTrackingScreen extends StatelessWidget {
   const HabitTrackingScreen({super.key});
@@ -10,16 +11,21 @@ class HabitTrackingScreen extends StatelessWidget {
 }
 
 class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
+  final TextEditingController _habitNameController = TextEditingController();
+  final TextEditingController _habitDescriptionController =
+      TextEditingController();
   String? _selectedTrack;
-  final List<String> _tracks = [
+
+  final List<String> _tracksList = [
     'Fitness',
     'Sono',
     'Alimentação',
     'Hobbies',
     'Social'
   ];
-  List<bool> isCheckedList = List.generate(
-      5, (index) => false); // Tamanho da lista = Número de hábitos diários
+
+  final List<Map<String, dynamic>> _newHabitsList = [];
+  final List<bool> _isCheckedList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +201,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                   // Listagem de Hábitos
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 5, // Número de hábitos do dia
+                      itemCount:
+                          _newHabitsList.length, // Número de hábitos do dia
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -205,7 +212,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text('Detalhes do Hábito'),
-                                  content: Text('Descrição e detalhes do hábito.'),
+                                  content: Text(
+                                      _newHabitsList[index]['description']),
                                   actions: [
                                     TextButton(
                                       child: Text('Fechar'),
@@ -222,7 +230,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                             margin: const EdgeInsets.only(bottom: 10),
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
-                              color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
@@ -232,6 +239,9 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   offset: const Offset(0, 3),
                                 ),
                               ],
+                              color: _isCheckedList[index]
+                                  ? Color(0xFFB8FFC7)
+                                  : Colors.white,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +250,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Título do Hábito',
+                                      _newHabitsList[index]['name'],
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontFamily: 'Raleway',
@@ -250,7 +260,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      'Trilha do Hábito',
+                                      _newHabitsList[index]['track'],
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Raleway',
@@ -262,23 +272,21 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                 Checkbox(
                                     value: false, // Estado do checkbox
                                     onChanged: (bool? value) {
-                                    IconButton(
-                                        icon: Image.asset(
-                                          isCheckedList[index]
-                                          ? 'assets/icons/check.png'
-                                          : 'assets/icons/uncheck.png', // Altera o ícone com base no estado
-                                          ),
-                                        onPressed: () {
-                                        setState(() {
-                                            isCheckedList[index] = !isCheckedList[
-                                            index]; // Alterna o estado
-                                            });
-                                        // Atualizar estado do checkbox
-                                        },
-                                        ),
-                                    }
-                                    ),
-                                ],
+                                IconButton(
+                                  icon: Image.asset(
+                                    _isCheckedList[index]
+                                        ? 'assets/icons/check.png'
+                                        : 'assets/icons/uncheck.png', // Altera o ícone com base no estado
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isCheckedList[index] = !_isCheckedList[
+                                          index]; // Alterna o estado
+                                    });
+                                    // Atualizar estado do checkbox
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -352,6 +360,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           textAlign: TextAlign.start,
                         )),
                     TextField(
+                      controller: _habitNameController,
                       cursorColor: Color(0xFF193339),
                       inputFormatters: [LengthLimitingTextInputFormatter(45)],
                       decoration: InputDecoration(
@@ -386,7 +395,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           _selectedTrack = newValue;
                         });
                       },
-                      items: _tracks.map((String track) {
+                      items: _tracksList.map((String track) {
                         return DropdownMenuItem<String>(
                           value: track,
                           child: Text(track),
@@ -423,6 +432,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           textAlign: TextAlign.start,
                         )),
                     TextField(
+                      controller: _habitDescriptionController,
                       maxLines: 4,
                       cursorColor: Color(0xFF193339),
                       inputFormatters: [LengthLimitingTextInputFormatter(116)],
@@ -445,7 +455,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                             child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  },
+                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF193339),
                                     fixedSize: Size(125, 50)),
@@ -458,8 +468,23 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                             margin: EdgeInsets.only(left: 10, right: 10),
                             child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
-                                  },
+                                  if (addHabit(
+                                      _habitNameController.text,
+                                      _selectedTrack,
+                                      _habitDescriptionController.text)) {
+                                    Navigator.pop(context);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: "Campos não preenchidos",
+                                      //toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.TOP,
+                                      timeInSecForIosWeb: 2,
+                                      backgroundColor: Color(0xFF193339),
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                  }
+                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF448D9C),
                                     fixedSize: Size(125, 50)),
@@ -476,6 +501,28 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
             ));
       },
     );
+  }
+
+  // Validação provisória feita apenas para não fechar o programa
+  bool addHabit(habitName, habitTrack, habitDescription) {
+    String name = habitName.trim();
+    String description = habitDescription.trim();
+
+    if (name.isEmpty || habitTrack == null || description.isEmpty) {
+      return false;
+    }
+
+    setState(() {
+      _newHabitsList.add({
+        'name': habitName,
+        'track': habitTrack,
+        'description': habitDescription
+      });
+      _isCheckedList.add(false);
+    });
+    _habitNameController.clear();
+    _habitDescriptionController.clear();
+    return true;
   }
 
   static Widget _buildCarouselItem(String title, String subtitle) {
