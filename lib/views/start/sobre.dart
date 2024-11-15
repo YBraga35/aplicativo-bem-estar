@@ -44,7 +44,7 @@ class Sobre extends StatelessWidget {
               _buildSectionContent(
                 'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
               ),
-              
+              SizedBox(height: 15,),
               // Botão Criar Conta
               ElevatedButton(
                 onPressed: () {
