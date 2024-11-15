@@ -35,14 +35,14 @@ class Sobre extends StatelessWidget {
               _buildSectionTitle('O Zen Journey'),
               SizedBox(height: 8),
               _buildSectionContent(
-                'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
+                'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida mais saudável através de pequenas mudanças diárias. Nossa missão é guiar você em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
               ),
               SizedBox(height: 15),
               // Propósito
               _buildSectionTitle('Propósito'),
               SizedBox(height: 8),
               _buildSectionContent(
-                'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
+                'Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
               ),
               SizedBox(height: 15,),
               // Botão Criar Conta
