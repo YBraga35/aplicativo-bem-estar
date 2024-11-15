@@ -29,10 +29,13 @@ class AuthenticateState extends State<Authenticate> {
         _isLoading = true;
       });
       try {
-        await _autenticacaoControle.loginUsers(
+        String? isSuccess = await _autenticacaoControle.loginUsers(
           email: _emailController.text,
           senha: _passwordController.text,
         );
+        if(isSuccess != null){
+          return;
+        }
         if (mounted) {
           Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
         }
