@@ -30,9 +30,10 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-**/Flutter/ephemeral/
-ios/Flutter
-macos/Flutter
+ios/Flutter/Generated.xconfig
+macos/Flutter/Generated.xconfig
+ios/Flutter/flutter_export_environment.sh
+macos/Flutter/flutter_export_environment.sh
 
 # Symbolication related
 app.*.symbols

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import '/routes/routes.dart';
-import '../../controllers/authenticate_controller.dart';
+import '/controllers/autenticacao_controle.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -11,7 +11,7 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
-  final AuthenticateController _autenticacaoControle = AuthenticateController();
+  final AutenticacaoControle _autenticacaoControle = AutenticacaoControle();
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final MaskedTextController _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
@@ -66,7 +66,7 @@ class RegisterState extends State<Register> {
         _isLoading = true;
       });
       try {
-        String? errorMessage = await _autenticacaoControle.signUpUsers(
+        String? errorMessage = await _autenticacaoControle.cadastrarUsuario(
           nome: _nomeController.text,
           email: _emailController.text,
           telefone: _telefoneController.text,
