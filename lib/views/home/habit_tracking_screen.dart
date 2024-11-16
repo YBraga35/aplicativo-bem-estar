@@ -290,7 +290,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                           index]; // Alterna o estado
                                     });
                                     // Atualizar estado do checkbox
-                                  },
+                                  }
+                                ),
                                 Row(
                                   children: [
                                     IconButton(                                  
