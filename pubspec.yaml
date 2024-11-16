@@ -87,6 +87,9 @@ flutter:
     - assets/icons/habits.png
     - assets/icons/reading.png
     - assets/icons/profile.png
+    - assets/icons/read_area.png
+    - assets/icons/check.png
+    - assets/icons/uncheck.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

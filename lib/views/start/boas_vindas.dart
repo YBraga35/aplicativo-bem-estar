@@ -61,7 +61,7 @@ class BoasVindas extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 ),
                                 children: <TextSpan>[
-                                  TextSpan(text: 'Aqui começa sua jornada, onde a cada passo te aproxima de seu objetivo: '),
+                                  TextSpan(text: 'Aqui começa sua jornada em busca de '),
                                   TextSpan(
                                     text: 'uma vida melhor',
                                     style: TextStyle(fontWeight: FontWeight.bold),

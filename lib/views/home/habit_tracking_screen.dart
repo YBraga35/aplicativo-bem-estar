@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
-class HabitTrackingScreen extends StatelessWidget {
+class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
+
+  @override
+  _HabitTrackingScreenState createState() => _HabitTrackingScreenState();
+}
+
+class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
+  // Lista local de hábitos (simulação)
+  List<Map<String, String>> listaDeHabitos = [
+    {'titulo': 'Hábito 1', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 2', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 3', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 4', 'trilha': 'Trilha do Hábito'},
+    {'titulo': 'Hábito 5', 'trilha': 'Trilha do Hábito'},
+  ];
+
+  void deletarHabito(int index) {
+    setState(() {
+      listaDeHabitos.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +163,8 @@ class HabitTrackingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.calendar_today, color: Color(0xFF193339)),
+                        icon: Icon(Icons.calendar_today,
+                            color: Color(0xFF193339)),
                         onPressed: () {
                           // Navegar para o calendário
                         },
@@ -159,7 +180,8 @@ class HabitTrackingScreen extends StatelessWidget {
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.filter_list, color: Color(0xFF193339)),
+                            icon: Icon(Icons.filter_list,
+                                color: Color(0xFF193339)),
                             onPressed: () {
                               // Filtrar hábitos
                             },
@@ -178,7 +200,7 @@ class HabitTrackingScreen extends StatelessWidget {
                   // Listagem de Hábitos
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 5, // Número de hábitos do dia
+                      itemCount: listaDeHabitos.length, // Número de hábitos do dia
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -188,7 +210,8 @@ class HabitTrackingScreen extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text('Detalhes do Hábito'),
-                                  content: Text('Descrição e detalhes do hábito.'),
+                                  content:
+                                      Text('Descrição e detalhes do hábito.'),
                                   actions: [
                                     TextButton(
                                       child: Text('Fechar'),
@@ -205,16 +228,10 @@ class HabitTrackingScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(bottom: 10),
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
-                              color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
+                              color: isCheckedList[index]
+                                  ? Color(0xFFB8FFC7)
+                                  : Colors.white,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,7 +240,7 @@ class HabitTrackingScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Título do Hábito',
+                                      listaDeHabitos[index]['titulo']!,
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontFamily: 'Raleway',
@@ -233,7 +250,7 @@ class HabitTrackingScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      'Trilha do Hábito',
+                                      listaDeHabitos[index]['trilha']!,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Raleway',
@@ -242,11 +259,50 @@ class HabitTrackingScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Checkbox(
-                                  value: false, // Estado do checkbox
-                                  onChanged: (bool? value) {
-                                    // Atualizar estado do checkbox
-                                  },
+                                Row(
+                                  children: [
+                                    IconButton(                                  
+                                      icon: Image.asset(
+                                        isCheckedList[index]? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          isCheckedList[index] = !isCheckedList[index]; // Alterna o estado
+                                        });
+                                        // Atualizar estado do checkbox
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete, color: Color(0xFF193339)),
+                                      onPressed: () {
+                                        // Exibir mensagem de confirmação antes de deletar
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Confirmar Deleção"),
+                                              content: Text("Você tem certeza que deseja deletar este hábito?"),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text("Cancelar"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text("Deletar"),
+                                                  onPressed: () {
+                                                    deletarHabito(index);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
