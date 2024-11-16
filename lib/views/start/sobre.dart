@@ -11,70 +11,68 @@ class Sobre extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Color(0xFFE0E6EA),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            // Center the content vertically
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Logo
-              Container(
-                width: screenWidth * 0.6,
-                height: screenHeight * 0.15,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/logo.png'),
-                    fit: BoxFit.contain,
-                  ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+        child: Column(
+          // Center the content vertically
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Logo
+            Container(
+              width: screenWidth * 0.6,
+              height: screenHeight * 0.15,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/logo.png'),
+                  fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 15),
-              // Sobre o Zen Journey
-              _buildSectionTitle('O Zen Journey'),
-              SizedBox(height: 8),
-              _buildSectionContent(
-                'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida mais saudável através de pequenas mudanças diárias. Nossa missão é guiar você em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
-              ),
-              SizedBox(height: 15),
-              // Propósito
-              _buildSectionTitle('Propósito'),
-              SizedBox(height: 8),
-              _buildSectionContent(
-                'Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
-              ),
-              SizedBox(height: 15,),
-              // Botão Criar Conta
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.authenticate);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.25,
-                    vertical: 12,
-                  ),
-                  backgroundColor: Color(0xFF448D9C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  elevation: 5,
+            ),
+            SizedBox(height: 15),
+            // Sobre o Zen Journey
+            _buildSectionTitle('O Zen Journey'),
+            SizedBox(height: 8),
+            _buildSectionContent(
+              'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
+            ),
+            SizedBox(height: 15),
+            // Propósito
+            _buildSectionTitle('Propósito'),
+            SizedBox(height: 8),
+            _buildSectionContent(
+              'Nosso propósito é criar um ambiente onde você possa crescer e se desenvolver de maneira saudável e sustentável. Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
+            ),
+            Spacer(),
+            // Botão Criar Conta
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.authenticate);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.25,
+                  vertical: 12,
                 ),
-                child: Text(
-                  'Criar Conta',
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                backgroundColor: Color(0xFF448D9C),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                elevation: 5,
+              ),
+              child: Text(
+                'Criar Conta',
+                style: TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-              SizedBox(height: 10),
-            ],
-          ),
-        )
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

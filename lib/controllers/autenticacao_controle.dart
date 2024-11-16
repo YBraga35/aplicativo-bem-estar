@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
-class AuthenticateController {
+class AutenticacaoControle {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   // Uso de uma lib para poder fazer logs  
   final Logger logger = Logger();
 
-  Future<String?> loginUsers(
+  Future<String?> loginUsuarios(
       {required String email, required String senha}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -18,7 +18,7 @@ class AuthenticateController {
     }
   }
 
-  Future<String?> signUpUsers({
+  Future<String?> cadastrarUsuario({
     required String nome,
     required String email,
     required String telefone,

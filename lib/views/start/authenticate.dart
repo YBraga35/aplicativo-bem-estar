@@ -1,4 +1,4 @@
-import 'package:zenjourney/controllers/authenticate_controller.dart';
+import 'package:zenjourney/controllers/autenticacao_controle.dart';
 import 'package:flutter/material.dart';
 import '/routes/routes.dart';
 
@@ -10,32 +10,29 @@ class Authenticate extends StatefulWidget {
 }
 
 class AuthenticateState extends State<Authenticate> {
-  final AuthenticateController _autenticacaoControle = AuthenticateController();
+  final AutenticacaoControle _autenticacaoControle = AutenticacaoControle();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
+    _senhaController.dispose();
     super.dispose();
   }
 
-  void _loginEmailPassword() async {
+  void _loginEmailSenha() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
       try {
-        String? isSuccess = await _autenticacaoControle.loginUsers(
+        await _autenticacaoControle.loginUsuarios(
           email: _emailController.text,
-          senha: _passwordController.text,
+          senha: _senhaController.text,
         );
-        if(isSuccess != null){
-          return _showErrorDialog('Erro ao fazer login. Verifique suas credenciais.');
-        }
         if (mounted) {
           Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
         }
@@ -57,7 +54,7 @@ class AuthenticateState extends State<Authenticate> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            'Tente novamente',
+            'Erro',
             style: TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
           ),
           content: SingleChildScrollView(
@@ -86,6 +83,7 @@ class AuthenticateState extends State<Authenticate> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -175,7 +173,7 @@ class AuthenticateState extends State<Authenticate> {
                               ),
                               const SizedBox(height: 8),
                               TextFormField(
-                                controller: _passwordController,
+                                controller: _senhaController,
                                 decoration: InputDecoration(
                                   labelText: 'Senha',
                                   labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
@@ -217,7 +215,7 @@ class AuthenticateState extends State<Authenticate> {
                             Column(
                               children: [
                                 ElevatedButton(
-                                  onPressed: _loginEmailPassword,
+                                  onPressed: _loginEmailSenha,
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: screenWidth * 0.1,
