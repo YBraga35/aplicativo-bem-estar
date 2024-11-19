@@ -34,7 +34,7 @@ class AuthenticateState extends State<Authenticate> {
           password: _senhaController.text,
         );
         if(isSuccess != null){
-          return;
+          return _showErrorDialog('Erro ao fazer login. Verifique suas credenciais.');
         }
         if (mounted) {
           Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
@@ -57,7 +57,7 @@ class AuthenticateState extends State<Authenticate> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            'Erro',
+            'Tente novamente',
             style: TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
           ),
           content: SingleChildScrollView(
