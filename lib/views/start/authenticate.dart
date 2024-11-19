@@ -10,16 +10,16 @@ class Authenticate extends StatefulWidget {
 }
 
 class AuthenticateState extends State<Authenticate> {
-  final AuthenticateController _autenticacaoControle = AuthenticateController();
+  final AuthenticateController _authenticateController = AuthenticateController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
+    _senhaController.dispose();
     super.dispose();
   }
 
@@ -29,9 +29,9 @@ class AuthenticateState extends State<Authenticate> {
         _isLoading = true;
       });
       try {
-        String? isSuccess = await _autenticacaoControle.loginUsers(
+        String? isSuccess = await _authenticateController.loginUsers(
           email: _emailController.text,
-          senha: _passwordController.text,
+          password: _senhaController.text,
         );
         if(isSuccess != null){
           return;
@@ -86,7 +86,6 @@ class AuthenticateState extends State<Authenticate> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -176,7 +175,7 @@ class AuthenticateState extends State<Authenticate> {
                               ),
                               const SizedBox(height: 8),
                               TextFormField(
-                                controller: _passwordController,
+                                controller: _senhaController,
                                 decoration: InputDecoration(
                                   labelText: 'Senha',
                                   labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),

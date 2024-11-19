@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class ReadingAreaScreen extends StatelessWidget {
   const ReadingAreaScreen({super.key});
 
@@ -23,6 +22,7 @@ class ReadingAreaScreen extends StatelessWidget {
         ),
         Center(
           child: SizedBox(
+              height: 75,
               width: 290,
               child: const Text(
                 'Leia artigos, informações e curiosidades, todas com embasamento científico',
@@ -75,14 +75,17 @@ class ReadingAreaScreen extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(),
                               ),
-                              child: Image.asset('assets/icons/read_area.png'),
+                              child: Icon(
+                                Icons.menu_book,
+                                size: 50,
+                                color: Color(0xFF448D9C),),
                             ),
                           ),
                           Center(
                             child: Container(
                                 width: 100,
                                 height: 100,
-                                margin: EdgeInsets.only(left: 15.0, right: 35.0),
+                                margin: EdgeInsets.only(left: 15.0, right: 35.0, top:5.0),
                                 child: Text(
                                   'Caminhos verdes e a saúde mental',
                                   style: TextStyle(
@@ -135,14 +138,17 @@ class ReadingAreaScreen extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(),
                               ),
-                              child: Image.asset('assets/icons/read_area.png'),
+                              child: Icon(
+                                Icons.menu_book,
+                                size: 50,
+                                color: Color(0xFF448D9C),)
                             ),
                           ),
                           Center(
                             child: Container(
                                 width: 100,
                                 height: 100,
-                                margin: EdgeInsets.only(left: 15.0, right: 35.0),
+                                margin: EdgeInsets.only(left: 15.0, right: 35.0, top: 5.0),
                                 child: Text(
                                   'Caminhos verdes e a saúde mental',
                                   style: TextStyle(

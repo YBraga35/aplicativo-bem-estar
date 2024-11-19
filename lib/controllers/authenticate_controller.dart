@@ -7,10 +7,10 @@ class AuthenticateController {
   final Logger logger = Logger();
 
   Future<String?> loginUsers(
-      {required String email, required String senha}) async {
+      {required String email, required String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: senha);
+          email: email, password: password);
           logger.i("Login efetuado com sucesso!");
       return null;
     } on FirebaseAuthException catch (e) {

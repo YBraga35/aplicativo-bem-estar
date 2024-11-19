@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'preferences_screen.dart';
 import 'suggested_tasks_screen.dart';
 import 'habit_tracking_screen.dart';
 import 'reading_area_screen.dart';
@@ -13,10 +12,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 2; // Default to the habit tracking screen
+  int _selectedIndex = 1; // Default to the habit tracking screen
 
   static final List<Widget> _widgetOptions = <Widget>[
-    PreferencesScreen(),
     SuggestedTasksScreen(),
     HabitTrackingScreen(),
     ReadingAreaScreen(),
@@ -57,23 +55,19 @@ class HomeScreenState extends State<HomeScreen> {
           elevation: 0,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/preferences.png', 0),
-              label: 'Preferências',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/tasks.png', 1),
+              icon: _buildIcon('assets/icons/tasks.png', 0),
               label: 'Tarefas',
             ),
             BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/habits.png', 2),
+              icon: _buildIcon('assets/icons/habits.png', 1),
               label: 'Hábitos',
             ),
             BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/reading.png', 3),
+              icon: _buildIcon('assets/icons/reading.png', 2),
               label: 'Leitura',
             ),
             BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/profile.png', 4),
+              icon: _buildIcon('assets/icons/profile.png', 3),
               label: 'Perfil',
             ),
           ],

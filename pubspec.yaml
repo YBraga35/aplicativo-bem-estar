@@ -38,10 +38,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^3.6.0
   logger: ^2.4.0
+  fluttertoast: ^8.2.8 
   firebase_auth: ^5.3.1
   flutter_masked_text2: 0.9.1
   flutter_carousel_slider: ^1.1.0
   intl: ^0.18.0 
+  table_calendar: ^3.0.8
   
 
 dev_dependencies:
@@ -87,7 +89,6 @@ flutter:
     - assets/icons/habits.png
     - assets/icons/reading.png
     - assets/icons/profile.png
-    - assets/icons/read_area.png
     - assets/icons/check.png
     - assets/icons/uncheck.png
 
