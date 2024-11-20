@@ -11,6 +11,8 @@ class AuthenticateController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+  final firestore = FirebaseFirestore.instance;
+
   // Uso de uma lib para poder fazer logs
   final Logger logger = Logger();
 
@@ -39,20 +41,38 @@ class AuthenticateController {
     required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      List<String> trackNames = [
+        'fitness',
+        'sono',
+        'alimentacao',
+        'hobbies',
+        'social'
+      ];
+
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      final userCollection = firestore.collection('users');
 
-      String uid = userCredential.user!.uid;
+      String userId = userCredential.user!.uid;
 
-      await userCollection.doc(uid).set({
+      await userCollection.doc(userId).set({
         'name': name,
         'email': email,
         'age': age,
         'createdAt': Timestamp.now(),
         'updateAt': Timestamp.now(),
       });
+
+      for(String trackName in trackNames){
+          userCollection.doc(userId).collection('tracks').doc(trackName).set({
+          'name':trackName,
+          'createdAt':Timestamp.now(),
+          'updatedAt':Timestamp.now()
+        });;
+      }
+
       logger.i("Usuário cadastrado com sucesso!");
       return null;
     } on FirebaseAuthException catch (e) {
