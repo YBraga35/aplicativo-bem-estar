@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -8,6 +9,9 @@ class AuthenticateController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  // Uso de uma lib para poder fazer logs
   final Logger logger = Logger();
 
   // Método para login com e-mail e senha
@@ -29,19 +33,27 @@ class AuthenticateController {
 
   // Método para registro de novos usuários
   Future<String?> signUpUsers({
-    required String nome,
+    required String name,
     required String email,
-    required String senha,
-    required String telefone,
-    required String pronomes,
-    required int idade,
+    required int age,
+    required String password,
   }) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
-        password: senha,
+        password: password,
       );
-      logger.i("Cadastro efetuado com sucesso!");
+
+      String uid = userCredential.user!.uid;
+
+      await userCollection.doc(uid).set({
+        'name': name,
+        'email': email,
+        'age': age,
+        'createdAt': Timestamp.now(),
+        'updateAt': Timestamp.now(),
+      });
+      logger.i("Usuário cadastrado com sucesso!");
       return null;
     } on FirebaseAuthException catch (e) {
       return e.message;
