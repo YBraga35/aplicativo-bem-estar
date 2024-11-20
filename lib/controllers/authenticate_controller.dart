@@ -44,7 +44,7 @@ class AuthenticateController {
       List<String> trackNames = [
         'fitness',
         'sono',
-        'alimentacao',
+        'alimentação',
         'hobbies',
         'social'
       ];
