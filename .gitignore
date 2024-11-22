@@ -31,9 +31,14 @@ migrate_working_dir/
 .pub/
 /build/
 ios/Flutter/Generated.xconfig
+**/ios/Flutter
+**/ios/Runner
 macos/Flutter/Generated.xconfig
 ios/Flutter/flutter_export_environment.sh
 macos/Flutter/flutter_export_environment.sh
+macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+ios/Runner/GeneratedPluginRegistrant.m
+macos/Flutter/GeneratedPluginRegistrant.swift
 
 # Symbolication related
 app.*.symbols
