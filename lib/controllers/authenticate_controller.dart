@@ -13,12 +13,12 @@ class AuthenticateController {
   // Método para login com e-mail e senha
   Future<String?> loginUsers({
     required String email,
-    required String senha,
+    required String password,
   }) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
-        password: senha,
+        password: password,
       );
       logger.i("Login efetuado com sucesso!");
       return null;
