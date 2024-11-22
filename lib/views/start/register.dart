@@ -11,13 +11,13 @@ class Register extends StatefulWidget {
 }
 
 class RegisterState extends State<Register> {
-  final AuthenticateController _autenticacaoControle = AuthenticateController();
-  final TextEditingController _nomeController = TextEditingController();
+  final AuthenticateController _authenticateController = AuthenticateController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final MaskedTextController _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
-  final TextEditingController _idadeController = TextEditingController();
-  final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _confirmarSenhaController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   String? _errorMessage;
@@ -28,12 +28,12 @@ class RegisterState extends State<Register> {
 
   @override
   void dispose() {
-    _nomeController.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _telefoneController.dispose();
-    _idadeController.dispose();
-    _senhaController.dispose();
-    _confirmarSenhaController.dispose();
+    _ageController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -56,7 +56,7 @@ class RegisterState extends State<Register> {
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
-      if (_senhaController.text != _confirmarSenhaController.text) {
+      if (_passwordController.text != _confirmPasswordController.text) {
         setState(() {
           _errorMessage = 'As senhas não coincidem';
         });
@@ -66,20 +66,18 @@ class RegisterState extends State<Register> {
         _isLoading = true;
       });
       try {
-        String? errorMessage = await _autenticacaoControle.signUpUsers(
-          nome: _nomeController.text,
+        String? errorMessage = await _authenticateController.signUpUsers(
+          name: _nameController.text,
           email: _emailController.text,
-          telefone: _telefoneController.text,
-          pronomes: _selectedPronome ?? '',
-          idade: int.tryParse(_idadeController.text) ?? 0,
-          senha: _senhaController.text,
+          age: int.tryParse(_ageController.text) ?? 0,
+          password: _passwordController.text,
         );
         setState(() {
           _isLoading = false;
           _errorMessage = errorMessage;
         });
         if (errorMessage == null) {
-          Navigator.pushNamed(context, AppRoutes.trailPreference);
+          Navigator.pushNamed(context, AppRoutes.authenticate);
         }
       } catch (error) {
         setState(() {
@@ -255,7 +253,7 @@ class RegisterState extends State<Register> {
                       ),
                     const SizedBox(height: 10),
                     TextFormField(
-                      controller: _nomeController,
+                      controller: _nameController,
                       decoration: InputDecoration(
                         labelText: 'Nome',
                         labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
@@ -339,7 +337,7 @@ class RegisterState extends State<Register> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _idadeController,
+                      controller: _ageController,
                       decoration: InputDecoration(
                         labelText: 'Idade',
                         labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
@@ -358,7 +356,7 @@ class RegisterState extends State<Register> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _senhaController,
+                      controller: _passwordController,
                       decoration: InputDecoration(
                         labelText: 'Senha',
                         labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
@@ -392,7 +390,7 @@ class RegisterState extends State<Register> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _confirmarSenhaController,
+                      controller: _confirmPasswordController,
                       decoration: InputDecoration(
                         labelText: 'Confirmar Senha',
                         labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),

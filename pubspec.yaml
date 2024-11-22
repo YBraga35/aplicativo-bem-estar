@@ -45,7 +45,7 @@ dependencies:
   intl: ^0.18.0 
   table_calendar: ^3.0.8
   google_sign_in: ^6.2.1
-  cloud_firestore: ^5.4.4
+  cloud_firestore: ^5.5.0
   
 dev_dependencies:
   flutter_test:

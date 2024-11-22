@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -8,6 +9,11 @@ class AuthenticateController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  final firestore = FirebaseFirestore.instance;
+
+  // Uso de uma lib para poder fazer logs
   final Logger logger = Logger();
 
   // Método para login com e-mail e senha
@@ -29,19 +35,45 @@ class AuthenticateController {
 
   // Método para registro de novos usuários
   Future<String?> signUpUsers({
-    required String nome,
+    required String name,
     required String email,
-    required String senha,
-    required String telefone,
-    required String pronomes,
-    required int idade,
+    required int age,
+    required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      List<String> trackNames = [
+        'fitness',
+        'sono',
+        'alimentação',
+        'hobbies',
+        'social'
+      ];
+
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
-        password: senha,
+        password: password,
       );
-      logger.i("Cadastro efetuado com sucesso!");
+      final userCollection = firestore.collection('users');
+
+      String userId = userCredential.user!.uid;
+
+      await userCollection.doc(userId).set({
+        'name': name,
+        'email': email,
+        'age': age,
+        'createdAt': Timestamp.now(),
+        'updateAt': Timestamp.now(),
+      });
+
+      for(String trackName in trackNames){
+          userCollection.doc(userId).collection('tracks').doc(trackName).set({
+          'name':trackName,
+          'createdAt':Timestamp.now(),
+          'updatedAt':Timestamp.now()
+        });;
+      }
+
+      logger.i("Usuário cadastrado com sucesso!");
       return null;
     } on FirebaseAuthException catch (e) {
       return e.message;

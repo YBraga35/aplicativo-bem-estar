@@ -12,24 +12,38 @@ class HabitsScreen extends StatefulWidget {
 class _HabitsScreenState extends State<HabitsScreen> {
   Map<String, List<String>> habitsByTrail = {
     'Fitness': [
-      'Caminhar 20 minutos por dia',
-      'Fazer 10 abdominais',
+      'Fazer exercício aeróbico (caminhar,bicicleta) 30 minutos, 5 dias por semana',
+      'Levantar e caminhar por 2 minutos a cada hora',
+      'Fazer 3 treinos de força por semana',
+      'Fazer 3 treinos de equilíbrio por semana',
+      'Fazer uma caminhada após às refeições principais'
     ],
     'Sono': [
-      'Dormir mais de 6 horas',
-      'Não mexer em telas 1h antes de dormir',
+      'Dormir entre 7 e 9 horas',
+      'Parar de tomar café, chimarrão e chá preto às 14:00 ou 8 horas antes de dormir',
+      'Não beber álcool durante a semana',
+      'Parar de usar telas com alta luminosidade 2 horas antes de dormir',
+      'Não ingerir alimentos pesados ao menos 2 horas antes de dormir'
     ],
     'Alimentação': [
-      'Comer frutas todos os dias',
-      'Beber 2 litros de água por dia',
+      'Comer 3 tipos de fruta',
+      'Comer 3 tipos de legume/salada',
+      'Tomar 1.5L de água pura por dia',
+      'Trocar o refrigerante por água com gás'
     ],
     'Hobbies': [
-      'Tocar um instrumento por 15 minutos',
-      'Desenhar ou pintar uma vez por semana',
+      'Estudar violão uma vez por semana',
+      'Estudar piano uma vez por semana',
+      'Cantar uma vez por semana',
+      'Ler um livro durante uma hora por semana',
+      'Jogar futebol uma vez por semana',
+      'Jogar vôlei uma vez por semana'
     ],
     'Social': [
-      'Ligar para um amigo',
-      'Participar de um grupo de interesse',
+      'Jogar futebol uma vez por semana',
+      'Jogar vôlei uma vez por semana',
+      'Ligar para um amigo no final de semana',
+      'Tomar um café com colegas pelo menos uma vez na semana'
     ],
   };
 

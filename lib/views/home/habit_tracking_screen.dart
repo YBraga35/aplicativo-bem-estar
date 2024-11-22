@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
@@ -11,6 +13,9 @@ class HabitTrackingScreen extends StatefulWidget {
 }
 
 class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
+  final firestore = FirebaseFirestore.instance;
+  final firebaseAuth = FirebaseAuth.instance; 
+
   final TextEditingController _habitNameController = TextEditingController();
   final TextEditingController _habitDescriptionController =
       TextEditingController();
@@ -539,6 +544,16 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     if (name.isEmpty || habitTrack == null || description.isEmpty) {
       return false;
     }
+
+    User? currentUser = firebaseAuth.currentUser;
+    DocumentReference trackRef = firestore.collection('users').doc(currentUser!.uid).collection('tracks').doc(habitTrack.toLowerCase());
+
+    trackRef.collection(habitName).doc().set({
+      'name':habitName,
+      'description':habitDescription,
+      'createdAt':Timestamp.now(),
+      'updatedAt':Timestamp.now()
+    });
 
     setState(() {
       _newHabitsList.add({
