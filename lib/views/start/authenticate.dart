@@ -239,9 +239,7 @@ class AuthenticateState extends State<Authenticate> {
                                 ),
                                 const SizedBox(height: 8),
                                 ElevatedButton.icon(
-                                  onPressed: () {
-                                    // Ação de login com Google (design pronto)
-                                  },
+                                  onPressed: _authenticateController.loginComGoogle,
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: screenWidth * 0.1,
