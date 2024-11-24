@@ -1,9 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:marquee/marquee.dart';
 
 class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
@@ -32,10 +34,38 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
   final List<Map<String, dynamic>> _newHabitsList = [];
   final List<bool> _isCheckedList = [];
 
-  void deletarHabito(int index) {
-    setState(() {
-      _newHabitsList.removeAt(index);
-    });
+  @override
+  void initState() {
+    super.initState();
+    fetchHabitsFromFirestore();
+  }
+
+
+  void deletarHabito(String trackName, String habitID, int index) async{
+    final userUID = FirebaseAuth.instance.currentUser?.uid;
+
+    if(userUID != null){
+      try{
+        await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userUID)
+        .collection('tracks')
+        .doc(trackName)
+        .collection('sugestedHabits')
+        .doc(habitID)
+        .delete();
+
+        setState(() {
+          _newHabitsList.removeAt(index);
+        });
+      }catch(e){
+        print("Erro ao deletar hábito: $e");
+      }
+    } else {
+      setState(() {
+        _newHabitsList.removeAt(index);
+      });
+    }
   }
 
   @override
@@ -257,18 +287,28 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
+                                Flexible(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      _newHabitsList[index]['name'],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF193339),
+                                      SizedBox(
+                                        height: 20,
+                                        child : Marquee(
+                                          text: _newHabitsList[index]['name'],
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: 'Raleway',
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF193339),
+                                          ),
+                                          scrollAxis: Axis.horizontal, // Rolagem horizontal
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          blankSpace: 25.0, // Espaço ao final do texto
+                                          velocity: 30.0, // Velocidade da rolagem
+                                          pauseAfterRound: Duration(seconds: 4), // Pausa após uma rodada
+                                          startPadding: 10.0, // Espaço inicial
+                                        ),
                                       ),
-                                    ),
                                     const SizedBox(height: 5),
                                     Text(
                                       _newHabitsList[index]['track'],
@@ -279,6 +319,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                       ),
                                     ),
                                   ],
+                                ),
                                 ),
                                 Row(
                                   children: [
@@ -313,7 +354,15 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                                 TextButton(
                                                   child: Text("Deletar"),
                                                   onPressed: () {
-                                                    deletarHabito(index);
+                                                    final trackName = _newHabitsList[index]['track'];
+                                                    final habitID = _newHabitsList[index]['id'];
+
+                                                    if(habitID == null){
+                                                      final habitName = _newHabitsList[index]['name']; //solução temporária para deleção de hábitos personalizados LOCALMENTE (sem vinculação firestore)
+                                                      deletarHabito(trackName, habitName, index);
+                                                    } else{
+                                                      deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
+                                                    }
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
@@ -348,6 +397,39 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
       ),
     );
   }
+
+  Future<void> fetchHabitsFromFirestore() async {
+  try {
+    final String uid = FirebaseAuth.instance.currentUser?.uid ?? "anonymous";
+    final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
+    // Limpa a lista local antes de carregar os novos dados
+    setState(() {
+      _newHabitsList.clear();
+      _isCheckedList.clear();
+    });
+
+    // Para cada trilha, busque os hábitos sugeridos
+    final tracksSnapshot = await userDocRef.collection('tracks').get();
+    for (var trackDoc in tracksSnapshot.docs) {
+      final trackName = trackDoc.id; // Nome da trilha
+      final habitsSnapshot = await trackDoc.reference.collection('sugestedHabits').get();
+      for (var habitDoc in habitsSnapshot.docs) {
+        final data = habitDoc.data();
+        _newHabitsList.add({
+          'name': data['habit'], // Nome do hábito
+          'track': trackName,    // Nome da trilha
+          'description': data['description'] ?? 'Sem descrição', // Descrição
+          'id': data['id']
+        });
+        _isCheckedList.add(false); // Adiciona o estado inicial (não concluído)
+      }
+    }
+    setState(() {}); // Atualiza a tela com os dados carregados
+  } catch (e) {
+    print("Erro ao carregar hábitos do Firestore: $e");
+  }
+}
 
   void _createHabit(BuildContext context) {
     setState(() {

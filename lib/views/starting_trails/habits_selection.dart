@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HabitsScreen extends StatefulWidget {
   final List<String> trails;
@@ -10,44 +12,106 @@ class HabitsScreen extends StatefulWidget {
 }
 
 class _HabitsScreenState extends State<HabitsScreen> {
-  Map<String, List<String>> habitsByTrail = {
+  Map<String, List<Map<String, String>>> habitsByTrail = {
     'Fitness': [
-      'Fazer exercício aeróbico (caminhar,bicicleta) 30 minutos, 5 dias por semana',
-      'Levantar e caminhar por 2 minutos a cada hora',
-      'Fazer 3 treinos de força por semana',
-      'Fazer 3 treinos de equilíbrio por semana',
-      'Fazer uma caminhada após às refeições principais'
+      {
+        'habit': 'Fazer exercício aeróbico (caminhar, bicicleta) 30 minutos, 5 dias por semana',
+        'description': 'É indicado que se faça 150min de exercício aeróbico semanal. Sendo que ao menos 30 minutos são necessários por vez para que tenhamos os melhores benefícios à saude.'
+      },
+      {
+        'habit': 'Levantar e caminhar por 2 minutos a cada hora',
+        'description': 'Para quem trabalha sentado ou parado, apenas 2 minutinhos de caminhada para tomar água ou ir ao banheiro diminui o risco de problemas vasculares e cardíacos de forma significativa. Mesmo para quem faz exercícios regularmente.'
+      },
+      {
+        'habit': 'Fazer 3 treinos de força por semana',
+        'description': 'Força e equilíbrio são os principais protetores contra quedas e ferimentos ao longo da vida. Aumentando a nossa expectativa. Ambos precisam ser desenvolvidos ao longo dos anos. Faz a diferença para conseguir levantar com facilidade do chão ou segurar um corrimão. Nunca é tarde para começar.'
+      },
+      {
+        'habit': 'Fazer 3 treinos de equilíbrio por semana',
+        'description': 'Força e equilíbrio são os principais protetores contra quedas e ferimentos ao longo da vida. Aumentando a nossa expectativa. Ambos precisam ser desenvolvidos ao longo dos anos. Faz a diferença para conseguir levantar com facilidade do chão ou segurar um corrimão. Nunca é tarde para começar.'
+      },
+      {
+        'habit': 'Fazer uma caminhada após às refeições principais',
+        'description': 'Caminhar lentamente ou moderadamente logo após refeições pesadas diminui picos de glicemia, o que pode ajudar com manutenção do peso e principalmente no controle de diabetes.'
+      },
     ],
     'Sono': [
-      'Dormir entre 7 e 9 horas',
-      'Parar de tomar café, chimarrão e chá preto às 14:00 ou 8 horas antes de dormir',
-      'Não beber álcool durante a semana',
-      'Parar de usar telas com alta luminosidade 2 horas antes de dormir',
-      'Não ingerir alimentos pesados ao menos 2 horas antes de dormir'
+      {
+        'habit': 'Dormir entre 7 e 9 horas',
+        'description': 'Menos de 1% da população consegue atingir funcionamento cognitivo normal com menos de 7 horas de sono. 1 hora de privação de sono apenas em um dia diminui reflexos e cognição de forma equivalente a estar sob influência de álcool. E a longo prazo, dormir menos de 7 horas está associado com alzheimer e declínio cognitivo precoce.'
+      },
+      {
+        'habit': 'Parar de tomar café, chimarrão e chá preto às 14:00 ou 8 horas antes de dormir',
+        'description': 'A cafeína pode afetar a sonolência e qualidade do sono de muitas pessoas'
+      },
+      {
+        'habit': 'Não beber álcool durante a semana',
+        'description': 'Existem evidências de que o consumo de álcool afeta a qualidade do sono. O álcool tem efeito sedativo, que é muito diferente de um sono saudável e restaurador. Portanto, mesmo com 9 horas de sono, o álcool afeta a qualidade e quantidade do sono REM e profundo, que são extremamente importantes para a recuperação do nosso cérebro e formação de memórias.'
+      },
+      {
+        'habit': 'Parar de usar telas com alta luminosidade 2 horas antes de dormir',
+        'description': 'A diminuição de luminosidade (principalmente luz azul) ao final do dia sinaliza para o nosso corpo que deve se preparar para uma noite de recuperação, facilitando sentimento de sono. Quando usamos aparelhos com alta luminosidade, isso pode alterar a nossa percepção natural, tornando mais difícil "pegar no sono". Coloque filtro de luz azul no seu celular e evite contato direto com luzes brancas na casa.'
+      },
+      {
+        'habit': 'Não ingerir alimentos pesados ao menos 2 horas antes de dormir',
+        'description': 'Um estômago cheio pode afetar a qualidade do sono, além de contribuir para refluxo gástrico e indigestão.'
+      },
     ],
     'Alimentação': [
-      'Comer 3 tipos de fruta',
-      'Comer 3 tipos de legume/salada',
-      'Tomar 1.5L de água pura por dia',
-      'Trocar o refrigerante por água com gás'
+      {
+        'habit': 'Comer 3 tipos de fruta',
+        'description': 'A chave para um intestino funcionando e uma microbiota saudável é variedade de frutas e legumes na dieta.'
+      },
+      {
+        'habit': 'Comer 3 tipos de legume ou salada',
+        'description': 'A chave para um intestino funcionando e uma microbiota saudável é variedade de frutas e legumes na dieta.'
+      },
+      {
+        'habit': 'Tomar 1.5L de água pura por dia',
+        'description': 'Hidratação é bom de todas as formas. Mas é importante incluir água nesta lista, principalmente em dias quentes.'
+      },
+      {
+        'habit': 'Trocar o refrigerante por água com gás',
+        'description': 'Que tal trocar o açúcar na bebida por uma opção e refrescante e mais saudável? Cuidado com sucos. Eles devem manter a fibra da fruta para termos benefícios. Prefira smoothies a outros tipos de suco natural.'
+      },
     ],
     'Hobbies': [
-      'Estudar violão uma vez por semana',
-      'Estudar piano uma vez por semana',
-      'Cantar uma vez por semana',
-      'Ler um livro durante uma hora por semana',
-      'Jogar futebol uma vez por semana',
-      'Jogar vôlei uma vez por semana'
+      {
+        'habit':'Estudar violão uma vez por semana',
+      },
+      {
+        'habit':'Estudar piano uma vez por semana',
+      },
+      {
+        'habit':'Cantar uma vez por semana',
+      },
+      {
+        'habit':'Ler um livro durante uma hora por semana',
+      },
+      {
+        'habit':'Jogar futebol uma vez por semana',
+      },
+      {
+        'habit':'Jogar vôlei uma vez por semana',
+      },
     ],
     'Social': [
-      'Jogar futebol uma vez por semana',
-      'Jogar vôlei uma vez por semana',
-      'Ligar para um amigo no final de semana',
-      'Tomar um café com colegas pelo menos uma vez na semana'
+      {
+        'habit':'Jogar futebol uma vez por semana',
+      },
+      {
+        'habit':'Jogar vôlei uma vez por semana',
+      },
+      {
+        'habit':'Ligar para um amigo no final de semana',
+      },
+      {
+        'habit':'Tomar um café com colegas pelo menos uma vez na semana',
+      },
     ],
   };
 
-  Map<String, Set<String>> selectedHabits = {};
+  Map<String, Set<Map<String, String>>> selectedHabits = {};
 
   @override
   void initState() {
@@ -56,6 +120,31 @@ class _HabitsScreenState extends State<HabitsScreen> {
       selectedHabits[trail] = {};
     }
   }
+
+Future<void> saveSelectedHabitsToFirestore(Map<String, Set<Map<String, String>>> selectedHabits) async {
+  try {
+    final String uid = FirebaseAuth.instance.currentUser?.uid ?? "anonimo";
+    final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
+    for (var trail in selectedHabits.keys) {
+      final trackDocRef = userDocRef.collection('tracks').doc(trail.toLowerCase());
+
+      for (var habitData in selectedHabits[trail]!) {
+        final newHabitDocRef = await trackDocRef.collection('sugestedHabits').add({
+          'habit': habitData['habit'],
+          'description': habitData['description'],
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        await newHabitDocRef.update({
+          'id': newHabitDocRef.id,
+        });
+      }
+    }
+  } catch (e) {
+    print("Erro ao salvar hábitos no Firestore: $e");
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +228,8 @@ class _HabitsScreenState extends State<HabitsScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await saveSelectedHabitsToFirestore(selectedHabits);
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                   style: ElevatedButton.styleFrom(
@@ -183,12 +273,14 @@ class _HabitsScreenState extends State<HabitsScreen> {
             fontFamily: 'Raleway',
           ),
         ),
-        children: habitsByTrail[trail]!.map((habit) {
-          bool isSelected = selectedHabits[trail]!.contains(habit);
+        children: (habitsByTrail[trail] ?? []).map((habit) {
+          String habitName = habit['habit'] ?? 'Hábito não definido';
+          String description = habit['description'] ?? 'Descrição não disponível';
+          bool isSelected = selectedHabits[trail]!.any((h)=> h['habit'] == habitName);
           return ListTile(
             tileColor: isSelected ? Color(0xFF193339) : Color(0xFF448D9C),
             title: Text(
-              habit,
+              habitName,
               style: TextStyle(
                 fontSize: 16,
                 color: isSelected ? Colors.white : Colors.white,
@@ -203,9 +295,9 @@ class _HabitsScreenState extends State<HabitsScreen> {
               onPressed: () {
                 setState(() {
                   if (isSelected) {
-                    selectedHabits[trail]!.remove(habit);
+                    selectedHabits[trail]!.removeWhere((h) => h['habit'] == habitName);
                   } else {
-                    selectedHabits[trail]!.add(habit);
+                    selectedHabits[trail]!.add({'habit': habitName, 'description': description});
                   }
                 });
               },
