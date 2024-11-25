@@ -106,15 +106,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Mensagem reflexiva do dia para saúde mental.',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Raleway',
-                          color: Colors.white70,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -140,7 +131,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Dias de Streak',
+                              'Dias em Sequência',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Raleway',
@@ -214,7 +205,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                         },
                       ),
                       Text(
-                        'Goals faltantes para hoje: 3',
+                        'Hábitos faltantes para hoje: ${_newHabitsList.length}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
