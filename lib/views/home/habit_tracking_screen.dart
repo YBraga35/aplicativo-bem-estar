@@ -50,9 +50,10 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
         .doc(userUID)
         .collection('tracks')
         .doc(trackName)
-        .collection('sugestedHabits')
+        .collection('habits')
         .doc(habitID)
         .delete();
+        print(habitID);
 
         setState(() {
           _newHabitsList.removeAt(index);
@@ -347,13 +348,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                                   onPressed: () {
                                                     final trackName = _newHabitsList[index]['track'];
                                                     final habitID = _newHabitsList[index]['id'];
-
-                                                    if(habitID == null){
-                                                      final habitName = _newHabitsList[index]['name']; //solução temporária para deleção de hábitos personalizados LOCALMENTE (sem vinculação firestore)
-                                                      deletarHabito(trackName, habitName, index);
-                                                    } else{
-                                                      deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
-                                                    }
+                                                    deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
+                                                    
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
@@ -404,11 +400,11 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     final tracksSnapshot = await userDocRef.collection('tracks').get();
     for (var trackDoc in tracksSnapshot.docs) {
       final trackName = trackDoc.id; // Nome da trilha
-      final habitsSnapshot = await trackDoc.reference.collection('sugestedHabits').get();
+      final habitsSnapshot = await trackDoc.reference.collection('habits').get();
       for (var habitDoc in habitsSnapshot.docs) {
         final data = habitDoc.data();
         _newHabitsList.add({
-          'name': data['habit'], // Nome do hábito
+          'name': data['name'], // Nome do hábito
           'track': trackName,    // Nome da trilha
           'description': data['description'] ?? 'Sem descrição', // Descrição
           'id': data['id']
@@ -573,8 +569,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                         Container(
                             margin: EdgeInsets.only(left: 10, right: 10),
                             child: ElevatedButton(
-                                onPressed: () {
-                                  if (addHabit(
+                                onPressed: () async {
+                                  if (await addHabit(
                                       _habitNameController.text,
                                       _selectedTrack,
                                       _habitDescriptionController.text)) {
@@ -610,7 +606,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
   }
 
   // Validação provisória feita apenas para não fechar o programa
-  bool addHabit(habitName, habitTrack, habitDescription) {
+  Future<bool> addHabit(habitName, habitTrack, habitDescription) async {
     String name = habitName.trim();
     String description = habitDescription.trim();
 
@@ -620,19 +616,23 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
 
     User? currentUser = firebaseAuth.currentUser;
     DocumentReference trackRef = firestore.collection('users').doc(currentUser!.uid).collection('tracks').doc(habitTrack.toLowerCase());
+    DocumentReference habitDoc = trackRef.collection('habits').doc();
+    String habitID = habitDoc.id;
 
-    trackRef.collection(habitName).doc().set({
+    await habitDoc.set({
       'name':habitName,
       'description':habitDescription,
       'createdAt':Timestamp.now(),
-      'updatedAt':Timestamp.now()
+      'updatedAt':Timestamp.now(),
+      'id': habitID,
     });
 
     setState(() {
       _newHabitsList.add({
         'name': habitName,
         'track': habitTrack,
-        'description': habitDescription
+        'description': habitDescription,
+        'id': habitID,
       });
       _isCheckedList.add(false);
     });
