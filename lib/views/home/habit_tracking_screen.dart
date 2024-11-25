@@ -4,7 +4,6 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logger/logger.dart';
 import 'package:marquee/marquee.dart';
 import 'package:zenjourney/routes/routes.dart';
 import 'package:zenjourney/string_extension.dart';
