@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../views/home/edit_habit.dart';
 import '../views/start/boas_vindas.dart';
 import '../views/start/sobre.dart';
 import '../views/start/authenticate.dart';
@@ -15,6 +16,7 @@ class AppRoutes {
   static const String trailPreference = '/trailPreference';
   static const String habitsSelection = '/habitsSelection';
   static const String home = '/home';
+  static const String editHabit = '/editHabit/:id';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -48,6 +50,13 @@ class AppRoutes {
           HabitsScreen(trails: settings.arguments as List<String>),
           duration: const Duration(milliseconds: 600),
         );
+      case editHabit:
+        return _createRoute(
+          EditHabitView(
+          habitName: (settings.arguments as List)[0] as String,
+          habitDescription: (settings.arguments as List)[1] as String,
+          habitTrack: (settings.arguments as List)[2] as String,
+        ));
       case home:
         return _createRoute(
           const HomeScreen(),

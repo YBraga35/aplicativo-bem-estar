@@ -4,7 +4,10 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 import 'package:marquee/marquee.dart';
+import 'package:zenjourney/routes/routes.dart';
+import 'package:zenjourney/string_extension.dart';
 
 class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
@@ -39,10 +42,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     fetchHabitsFromFirestore();
   }
 
-
   void deletarHabito(String trackName, String habitID, int index) async{
     final userUID = FirebaseAuth.instance.currentUser?.uid;
-
     if(userUID != null){
       try{
         await FirebaseFirestore.instance
@@ -97,7 +98,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Olá, @usuario',
+                        'Olá, ${FirebaseAuth.instance.currentUser!.displayName}',
                         style: TextStyle(
                           fontSize: 24,
                           fontFamily: 'Raleway',
@@ -228,12 +229,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                               // Filtrar hábitos
                             },
                           ),
-                          IconButton(
-                            icon: Icon(Icons.add, color: Color(0xFF193339)),
-                            onPressed: () {
-                              // Adicionar hábito
-                            },
-                          ),
                         ],
                       ),
                     ],
@@ -256,8 +251,22 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   content: Text(
                                       _newHabitsList[index]['description']),
                                   actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          AppRoutes.editHabit,
+                                          arguments: [
+                                            _newHabitsList[index]['name'],
+                                            _newHabitsList[index]['description'],
+                                            _newHabitsList[index]['track'],
+                                          ]
+                                        );
+                                      },
+                                      icon: Icon(Icons.edit, color: Color(0xFF193339)),
+                                    ),
                                     TextButton(
-                                      child: Text('Fechar'),
+                                      child: Icon(Icons.close, color: Color(0xFF193339)),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -303,7 +312,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                       ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      _newHabitsList[index]['track'],
+                                      _newHabitsList[index]['track'].toString().toCapitalized,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Raleway',
