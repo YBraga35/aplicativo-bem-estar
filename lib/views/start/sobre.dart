@@ -1,104 +1,176 @@
 import 'package:flutter/material.dart';
 import '/routes/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class Sobre extends StatelessWidget {
+class SlideContent {
+  final String title;
+  final String content;
+  SlideContent(this.title, this.content);
+}
+
+class Sobre extends StatefulWidget {
   const Sobre({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
+  State<Sobre> createState() => _SobreState();
+}
 
+class _SobreState extends State<Sobre> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<SlideContent> _slides = [
+    SlideContent(
+      'Habitus',
+      'O Habitus é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo(a) em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
+    ),
+    SlideContent(
+      'Propósito',
+      'Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
+    ),
+  ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE0E6EA),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-          child: Column(
-            // Center the content vertically
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+      backgroundColor: const Color(0xFFE0E6EA),
+      body: Stack(
+        children: [
+          Column(
             children: [
-              // Logo
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  itemCount: _slides.length,
+                  itemBuilder: (context, index) {
+                    return _buildSlide(
+                      _slides[index],
+                      isLastSlide: index == _slides.length - 1,
+                    );
+                  },
+                ),
+              ),
               Container(
-                width: screenWidth * 0.6,
-                height: screenHeight * 0.15,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/logo.png'),
-                    fit: BoxFit.contain,
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    _slides.length,
+                    (index) => _buildDot(index),
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              // Sobre o Zen Journey
-              _buildSectionTitle('O Zen Journey'),
-              SizedBox(height: 8),
-              _buildSectionContent(
-                'O Zen Journey é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo(a) em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
-              ),
-              SizedBox(height: 15),
-              // Propósito
-              _buildSectionTitle('Propósito'),
-              SizedBox(height: 8),
-              _buildSectionContent(
-                'Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
-              ),
-              // Botão Criar Conta
-              SizedBox(height: 15,),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.authenticate);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.25,
-                    vertical: 12,
-                  ),
-                  backgroundColor: Color(0xFF448D9C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  elevation: 5,
-                ),
-                child: Text(
-                  'Criar Conta',
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
             ],
           ),
+          if (_currentPage == _slides.length - 1)
+            Positioned(
+              bottom: 30,
+              right: 30,
+              child: _buildArrowButton(context),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSlide(SlideContent slide, {bool isLastSlide = false}) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Habitus',
+              style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                  fontSize: 48,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF20434a),
+                ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 40),
+            _buildSectionTitle(slide.title),
+            const SizedBox(height: 30),
+            _buildSectionContent(slide.content),
+          ],
         ),
       ),
     );
   }
 
-  // Widget para o título das seções
+  Widget _buildArrowButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: const Color(0xFF448D9C),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: const Icon(
+          Icons.arrow_forward,
+          color: Colors.white,
+          size: 30,
+        ),
+        onPressed: () => Navigator.pushNamed(context, AppRoutes.authenticate),
+        padding: const EdgeInsets.all(12),
+      ),
+    );
+  }
+
+  Widget _buildDot(int index) {
+    return Container(
+      height: 10,
+      width: 10,
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: _currentPage == index
+            ? const Color(0xFF448D9C)
+            : const Color(0xFF448D9C).withOpacity(0.4),
+      ),
+    );
+  }
+
   Widget _buildSectionTitle(String title) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 22,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF193339),
+    return Text(
+      title,
+      style: GoogleFonts.raleway(
+        textStyle: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF20434a),
         ),
       ),
+      textAlign: TextAlign.center,
     );
   }
 
-  // Widget para o conteúdo das seções com palavras em negrito
   Widget _buildSectionContent(String content) {
     return Container(
-      padding: EdgeInsets.all(15.0),
+      width: double.infinity,
+      padding: const EdgeInsets.all(25.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -107,31 +179,29 @@ class Sobre extends StatelessWidget {
             color: Colors.black.withOpacity(0.05),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: RichText(
         text: TextSpan(
-          style: TextStyle(
-            fontSize: 16,
+          style: const TextStyle(
+            fontSize: 18,
             fontWeight: FontWeight.w500,
             fontFamily: 'Raleway',
             color: Color(0xFF193339),
-            height: 1.5,
+            height: 1.6,
           ),
           children: _buildRichText(content),
         ),
-        textAlign: TextAlign.justify,
+        textAlign: TextAlign.center,
       ),
     );
   }
 
-  // Função para criar TextSpans com palavras em negrito
   List<TextSpan> _buildRichText(String content) {
-    // Lista de palavras a serem destacadas em negrito
     List<String> boldWords = [
-      'Zen Journey',
+      'Habitus',
       'aplicativo',
       'missão',
       'autodescoberta',
@@ -152,7 +222,6 @@ class Sobre extends StatelessWidget {
     String remaining = content;
 
     while (remaining.isNotEmpty) {
-      // Encontrar o próximo índice de qualquer palavra em negrito
       int nearestIndex = remaining.length;
       String? nearestWord;
       for (String word in boldWords) {
@@ -164,26 +233,22 @@ class Sobre extends StatelessWidget {
       }
 
       if (nearestWord == null) {
-        // Nenhuma palavra em negrito encontrada, adicionar o restante do texto
         spans.add(TextSpan(text: remaining));
         break;
       }
 
       if (nearestIndex > 0) {
-        // Adicionar o texto antes da palavra em negrito
         spans.add(TextSpan(text: remaining.substring(0, nearestIndex)));
       }
 
-      // Adicionar a palavra em negrito
       int wordLength = nearestWord.length;
       spans.add(
         TextSpan(
           text: remaining.substring(nearestIndex, nearestIndex + wordLength),
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       );
 
-      // Atualizar o texto restante
       remaining = remaining.substring(nearestIndex + wordLength);
     }
 
