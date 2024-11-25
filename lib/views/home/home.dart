@@ -32,8 +32,10 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffe0e6ea),
       body: SafeArea(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+          child: IndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
+      )),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFF1F1F1), // Branco acinzentado
