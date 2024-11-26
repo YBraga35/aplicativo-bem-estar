@@ -5,14 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 
 class EditHabitView extends StatefulWidget {
+  final String habitId;
   final String habitName;
   final String habitDescription;
   final String habitTrack;
 
   const EditHabitView(
       {super.key,
+      required this.habitId,
       required this.habitName,
       required this.habitDescription,
       required this.habitTrack
@@ -24,6 +27,7 @@ class EditHabitView extends StatefulWidget {
 }
 
 class EditHabitViewState extends State<EditHabitView> {
+  late TextEditingController _idController;
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _trackController;
@@ -40,6 +44,7 @@ class EditHabitViewState extends State<EditHabitView> {
   @override
   void initState() {
     super.initState();
+    _idController = TextEditingController(text: widget.habitId);
     _nameController = TextEditingController(text: widget.habitName);
     _descriptionController = TextEditingController(text: widget.habitDescription);
     _trackController = TextEditingController(text: widget.habitTrack);
@@ -47,25 +52,29 @@ class EditHabitViewState extends State<EditHabitView> {
 
   @override
   void dispose() {
+    _idController.dispose();
     _nameController.dispose();
     _descriptionController.dispose();
     _trackController.dispose();
     super.dispose();
   }
 
-  void _saveHabit(String habitName, String habitTrack, String habitDescription) async {
+  void _saveHabit(String habitId, String habitName, String habitTrack, String habitDescription) async {
     try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId != null) {
         await firestore
             .collection('users')
-            .doc(user.uid)
-            .collection('habits')
-            .doc(widget.habitName)
+            .doc(userId)
+            .collection('tracks')
+            .doc(_selectedTrack!.toLowerCase())
+            .collection('sugestedHabits')
+            .doc(habitId)
             .update({
           'name': _nameController.text.trim(),
           'track': _selectedTrack,
           'description': _descriptionController.text.trim(),
+          'updatedAt': Timestamp.now(),
         });
         Fluttertoast.showToast(
           msg: "Hábito atualizado com sucesso",
@@ -77,6 +86,7 @@ class EditHabitViewState extends State<EditHabitView> {
         );
       }
     } catch (e) {
+      Logger().e('Erro ao atualizar hábito: $e');
       Fluttertoast.showToast(
       msg: "Erro ao atualizar hábito: $e",
       gravity: ToastGravity.TOP,
@@ -87,7 +97,6 @@ class EditHabitViewState extends State<EditHabitView> {
       );
     }
 
-    print('Hábito salvo: ${_nameController.text}, ${_descriptionController.text}, ${_selectedTrack}');
     Navigator.pop(context);
   }
 
@@ -250,6 +259,7 @@ class EditHabitViewState extends State<EditHabitView> {
                                 );
                               } else {
                                 _saveHabit(
+                                  _idController.text,
                                   _nameController.text,
                                   _trackController.text,
                                   _descriptionController.text,
@@ -272,65 +282,4 @@ class EditHabitViewState extends State<EditHabitView> {
           ),
         ));
   }
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Editar Hábito'),
-//         actions: [
-//           IconButton(
-//             icon: Icon(Icons.save),
-//             onPressed: () => _saveHabit(
-//               widget.habitName, 
-//               widget.habitTrack,
-//               widget.habitDescription
-//               ),
-//           ),
-//         ],
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             TextField(
-//               controller: _nameController,
-//               decoration: InputDecoration(labelText: 'Título'),
-//             ),
-//             SizedBox(height: 16.0),
-//             TextField(
-//               controller: _descriptionController,
-//               decoration: InputDecoration(labelText: 'Descrição'),
-//               maxLines: 3,
-//             ),
-//             SizedBox(height: 16.0),
-//             DropdownButtonFormField<String>(
-//               value: _selectedTrack,
-//               decoration: InputDecoration(
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(12.0),
-//                   ),
-//                   focusedBorder: OutlineInputBorder(
-//                       borderRadius: BorderRadius.circular(12.0),
-//                       borderSide: BorderSide(
-//                         color: Color(0xFF193339),
-//                         width: 2,
-//                       )
-//                   )
-//               ),
-//               items: _tracksList.map((String track) {
-//                 return DropdownMenuItem<String>(
-//                   value: track,
-//                   child: Text(track),
-//                 );
-//               }).toList(),
-//               onChanged: (String? newValue) {
-//                 setState(() {
-//                   _selectedTrack = newValue;
-//                 });
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
 }

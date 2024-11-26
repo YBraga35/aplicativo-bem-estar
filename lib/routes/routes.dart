@@ -53,9 +53,10 @@ class AppRoutes {
       case editHabit:
         return _createRoute(
           EditHabitView(
-          habitName: (settings.arguments as List)[0] as String,
-          habitDescription: (settings.arguments as List)[1] as String,
-          habitTrack: (settings.arguments as List)[2] as String,
+          habitId: (settings.arguments as List)[0] as String,
+          habitName: (settings.arguments as List)[1] as String,
+          habitDescription: (settings.arguments as List)[2] as String,
+          habitTrack: (settings.arguments as List)[3] as String,
         ));
       case home:
         return _createRoute(

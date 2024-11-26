@@ -247,6 +247,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                           context,
                                           AppRoutes.editHabit,
                                           arguments: [
+                                            _newHabitsList[index]['id'],
                                             _newHabitsList[index]['name'],
                                             _newHabitsList[index]['description'],
                                             _newHabitsList[index]['track'],
