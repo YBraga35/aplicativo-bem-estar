@@ -626,16 +626,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
       'updatedAt':Timestamp.now(),
       'id': habitID,
     });
-
-    setState(() {
-      _newHabitsList.add({
-        'name': habitName,
-        'track': habitTrack,
-        'description': habitDescription,
-        'id': habitID,
-      });
-      _isCheckedList.add(false);
-    });
+    fetchHabitsFromFirestore();
     _habitNameController.clear();
     _habitDescriptionController.clear();
     return true;
