@@ -53,8 +53,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
         .collection('habits')
         .doc(habitID)
         .delete();
-        print(habitID);
 
+        
         setState(() {
           _newHabitsList.removeAt(index);
         });
