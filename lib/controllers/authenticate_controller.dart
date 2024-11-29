@@ -69,7 +69,7 @@ class AuthenticateController {
           'name':trackName,
           'createdAt':Timestamp.now(),
           'updatedAt':Timestamp.now()
-        });;
+        });
       }
 
       logger.i("Usuário cadastrado com sucesso!");

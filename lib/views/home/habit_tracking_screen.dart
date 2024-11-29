@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:marquee/marquee.dart';
+import 'package:zenjourney/routes/routes.dart';
+import 'package:zenjourney/string_extension.dart';
 
 class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
@@ -39,10 +41,8 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     fetchHabitsFromFirestore();
   }
 
-
   void deletarHabito(String trackName, String habitID, int index) async{
     final userUID = FirebaseAuth.instance.currentUser?.uid;
-
     if(userUID != null){
       try{
         await FirebaseFirestore.instance
@@ -97,21 +97,12 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Olá, @usuario',
+                        'Olá, ${FirebaseAuth.instance.currentUser!.displayName}',
                         style: TextStyle(
                           fontSize: 24,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Mensagem reflexiva do dia para saúde mental.',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Raleway',
-                          color: Colors.white70,
                         ),
                       ),
                     ],
@@ -139,7 +130,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Dias de Streak',
+                              'Dias em Sequência',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Raleway',
@@ -213,7 +204,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                         },
                       ),
                       Text(
-                        'Goals faltantes para hoje: 3',
+                        'Hábitos faltantes para hoje: ${_newHabitsList.length}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
@@ -226,12 +217,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                             icon: Icon(Icons.filter_list, color: Color(0xFF193339)),
                             onPressed: () {
                               // Filtrar hábitos
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.add, color: Color(0xFF193339)),
-                            onPressed: () {
-                              // Adicionar hábito
                             },
                           ),
                         ],
@@ -252,14 +237,90 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Detalhes do Hábito'),
-                                  content: Text(
-                                      _newHabitsList[index]['description']),
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: const Icon(
+                                          Icons.close,
+                                          color: Color(0xFF193339),
+                                        ),
+                                        tooltip: 'Fechar',
+                                      ),
+                                      Text(
+                                        _newHabitsList[index]['name'],
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: <Widget>[
+                                        Text(_newHabitsList[index]['description']),
+                                        SizedBox(height: 20),
+                                        Text( _newHabitsList[index]['track'].toString().toCapitalized,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Raleway',
+                                            color: Color(0xFF193339),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ),
                                   actions: [
-                                    TextButton(
-                                      child: Text('Fechar'),
+                                    IconButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => EditHabitView(
+                                              habitId: _newHabitsList[index]['id'],
+                                              habitName: _newHabitsList[index]['name'],
+                                              habitDescription: _newHabitsList[index]['description'],
+                                              habitTrack: _newHabitsList[index]['track'],
+                                              //onHabitUpdated: fetchHabitsFromFirestore,
+                                            )
+                                          )
+                                        );
+                                      },
+                                      icon: Icon(Icons.edit, color: Color(0xFF193339)),
+                                      tooltip: 'Editar',
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete, color: Color(0xFF193339)),
+                                      onPressed: () {
+                                        // Exibir mensagem de confirmação antes de deletar
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Confirmar Deleção"),
+                                              content: Text("Você tem certeza que deseja deletar este hábito?"),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text("Cancelar"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text("Deletar"),
+                                                  onPressed: () {
+                                                    final trackName = _newHabitsList[index]['track'];
+                                                    final habitID = _newHabitsList[index]['id'];
+                                                    deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                     ),
                                   ],
@@ -302,14 +363,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                         ),
                                       ),
                                     const SizedBox(height: 5),
-                                    Text(
-                                      _newHabitsList[index]['track'],
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Raleway',
-                                        color: Color(0xFF193339),
-                                      ),
-                                    ),
                                   ],
                                 ),
                                 ),
@@ -324,39 +377,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                           _isCheckedList[index] = !_isCheckedList[index]; // Alterna o estado
                                         });
                                         // Atualizar estado do checkbox
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete, color: Color(0xFF193339)),
-                                      onPressed: () {
-                                        // Exibir mensagem de confirmação antes de deletar
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text("Confirmar Deleção"),
-                                              content: Text("Você tem certeza que deseja deletar este hábito?"),
-                                              actions: [
-                                                TextButton(
-                                                  child: Text("Cancelar"),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text("Deletar"),
-                                                  onPressed: () {
-                                                    final trackName = _newHabitsList[index]['track'];
-                                                    final habitID = _newHabitsList[index]['id'];
-                                                    deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
-                                                    
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
                                       },
                                     ),
                                   ],
