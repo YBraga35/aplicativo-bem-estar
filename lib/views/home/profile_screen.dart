@@ -298,8 +298,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // Modal para editar perfil
   void _showEditProfileModal(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _pronounsController = TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController pronounsController = TextEditingController();
 
     showModalBottomSheet(
       context: context,
@@ -340,7 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: _nameController,
+                  controller: nameController,
                   decoration: const InputDecoration(
                     labelText: 'Nome',
                     border: OutlineInputBorder(),
@@ -348,7 +348,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  controller: _pronounsController,
+                  controller: pronounsController,
                   decoration: const InputDecoration(
                     labelText: 'Pronomes',
                     border: OutlineInputBorder(),
@@ -391,8 +391,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // Modal para configurações e preferências
   void _showSettingsModal(BuildContext context) {
-    bool _notificationsEnabled = true;
-    String _selectedLanguage = 'Português';
+    bool notificationsEnabled = true;
+    String selectedLanguage = 'Português';
 
     showModalBottomSheet(
       context: context,
@@ -436,11 +436,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: Color(0xFF193339),
                       ),
                     ),
-                    value: _notificationsEnabled,
+                    value: notificationsEnabled,
                     activeColor: const Color(0xFF448D9C),
                     onChanged: (bool value) {
                       setState(() {
-                        _notificationsEnabled = value;
+                        notificationsEnabled = value;
                       });
                     },
                   ),
@@ -455,7 +455,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     trailing: DropdownButton<String>(
-                      value: _selectedLanguage,
+                      value: selectedLanguage,
                       items: <String>['Português', 'Inglês', 'Espanhol']
                           .map((String value) {
                         return DropdownMenuItem<String>(
@@ -470,7 +470,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
-                          _selectedLanguage = newValue!;
+                          selectedLanguage = newValue!;
                         });
                       },
                     ),
@@ -743,7 +743,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // Modal de confirmação para excluir conta
   void _showDeleteAccountConfirmation(BuildContext context) {
-    bool _isFirstConfirmation = true;
+    bool isFirstConfirmation = true;
 
     showDialog(
       context: context,
@@ -759,7 +759,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Color(0xFFCE6868),
                 ),
               ),
-              content: _isFirstConfirmation
+              content: isFirstConfirmation
                   ? const Text(
                       'Tem certeza de que deseja excluir sua conta? Este processo não pode ser desfeito.',
                       style: TextStyle(
@@ -788,7 +788,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 ),
                 TextButton(
-                  child: _isFirstConfirmation
+                  child: isFirstConfirmation
                       ? const Text(
                           'Confirmar',
                           style: TextStyle(
@@ -804,9 +804,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                   onPressed: () {
-                    if (_isFirstConfirmation) {
+                    if (isFirstConfirmation) {
                       setState(() {
-                        _isFirstConfirmation = false;
+                        isFirstConfirmation = false;
                       });
                     } else {
                       Navigator.pushReplacementNamed(context, AppRoutes.authenticate);
