@@ -68,14 +68,15 @@ class EditHabitViewState extends State<EditHabitView> {
             .doc(userId)
             .collection('tracks')
             .doc(_selectedTrack!.toLowerCase())
-            .collection('sugestedHabits')
+            .collection('habits')
             .doc(habitId)
             .update({
-          'name': _nameController.text.trim(),
-          'track': _selectedTrack,
-          'description': _descriptionController.text.trim(),
-          'updatedAt': Timestamp.now(),
+              'name': _nameController.text.trim(),
+              'track': _selectedTrack,
+              'description': _descriptionController.text.trim(),
+              'updatedAt': Timestamp.now(),
         });
+        // Mostra mensagem de sucesso
         Fluttertoast.showToast(
           msg: "Hábito atualizado com sucesso",
           gravity: ToastGravity.TOP,
@@ -86,7 +87,9 @@ class EditHabitViewState extends State<EditHabitView> {
         );
       }
     } catch (e) {
+      // Mostra erro no console de debug
       Logger().e('Erro ao atualizar hábito: $e');
+      // Mostra mensagem de erro
       Fluttertoast.showToast(
       msg: "Erro ao atualizar hábito: $e",
       gravity: ToastGravity.TOP,
@@ -97,7 +100,7 @@ class EditHabitViewState extends State<EditHabitView> {
       );
     }
 
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   @override

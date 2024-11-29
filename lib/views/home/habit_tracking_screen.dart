@@ -237,9 +237,34 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Detalhes do Hábito'),
-                                  content: Text(
-                                      _newHabitsList[index]['description']),
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      TextButton(
+                                        child: Icon(Icons.close, color: Color(0xFF193339)),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      Text(_newHabitsList[index]['name']),
+                                    ],
+                                  ),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: <Widget>[
+                                        Text(_newHabitsList[index]['description']),
+                                        SizedBox(height: 20),
+                                        Text( _newHabitsList[index]['track'].toString().toCapitalized,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Raleway',
+                                            color: Color(0xFF193339),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ),
                                   actions: [
                                     IconButton(
                                       onPressed: () {
@@ -255,12 +280,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                         );
                                       },
                                       icon: Icon(Icons.edit, color: Color(0xFF193339)),
-                                    ),
-                                    TextButton(
-                                      child: Icon(Icons.close, color: Color(0xFF193339)),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
+                                      tooltip: 'Editar',
                                     ),
                                   ],
                                 );
