@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:marquee/marquee.dart';
 import 'package:zenjourney/routes/routes.dart';
 import 'package:zenjourney/string_extension.dart';
+import 'package:zenjourney/views/home/edit_habit.dart';
 
 class HabitTrackingScreen extends StatefulWidget {
   const HabitTrackingScreen({super.key});
