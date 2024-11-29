@@ -196,10 +196,11 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                 children: [
                   // Header
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Hábitos faltantes para hoje: ${_newHabitsList.length}',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
@@ -223,7 +224,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       IconButton(
                                         onPressed: () {

@@ -25,7 +25,7 @@ class _TrilhasState extends State<Trilhas> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Text(
               'Habitus',
               style: TextStyle(
@@ -64,11 +64,11 @@ class _TrilhasState extends State<Trilhas> {
                     ),
                     TextSpan(text: 'para visualizar tarefas relacionadas.\n\n'),
                     TextSpan(
-                      text: 'Não se preocupe ',
+                      text: 'Não se preocupe',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: ', você pode\n alterar as informações depois.',
+                      text: ', você pode alterar as informações depois.',
                     ),
                   ],
                 ),
