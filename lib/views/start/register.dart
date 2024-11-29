@@ -98,7 +98,7 @@ class RegisterState extends State<Register> {
           child: ListBody(
             children: <Widget>[
               Text(
-                'Bem-vindo ao Zenjourney, um aplicativo dedicado ao bem-estar e saúde mental. '
+                'Bem-vindo ao Habitus, um aplicativo dedicado ao bem-estar e saúde mental. '
                 'Ao utilizar nosso aplicativo, você concorda com os seguintes termos de uso:\n\n',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -107,7 +107,7 @@ class RegisterState extends State<Register> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'O Zenjourney é destinado a fornecer ferramentas e recursos para ajudar no bem-estar mental. '
+                'O Habitus é destinado a fornecer ferramentas e recursos para ajudar no bem-estar mental. '
                 'Não substitui o aconselhamento profissional ou tratamento médico. Sempre consulte um profissional de saúde qualificado para quaisquer questões de saúde.\n\n',
               ),
               Text(
@@ -129,14 +129,14 @@ class RegisterState extends State<Register> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'Você é responsável pelo conteúdo que publica no Zenjourney. Não publique conteúdo que seja ofensivo, ilegal ou que viole os direitos de terceiros.\n\n',
+                'Você é responsável pelo conteúdo que publica no Habitus. Não publique conteúdo que seja ofensivo, ilegal ou que viole os direitos de terceiros.\n\n',
               ),
               Text(
                 '5. Limitação de Responsabilidade\n',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'O Zenjourney não se responsabiliza por quaisquer danos diretos, indiretos, incidentais ou consequenciais resultantes do uso ou da incapacidade de usar o aplicativo.\n\n',
+                'O Habitus não se responsabiliza por quaisquer danos diretos, indiretos, incidentais ou consequenciais resultantes do uso ou da incapacidade de usar o aplicativo.\n\n',
               ),
               Text(
                 '6. Modificações nos Termos\n',
@@ -160,7 +160,7 @@ class RegisterState extends State<Register> {
                 'Se você tiver alguma dúvida sobre estes termos de uso, entre em contato conosco através do suporte@zenjourney.com.\n\n',
               ),
               Text(
-                'Obrigado por usar o Zenjourney. Esperamos que nosso aplicativo ajude você a alcançar um maior bem-estar mental.',
+                'Obrigado por usar o Habitus. Esperamos que nosso aplicativo ajude você a alcançar um maior bem-estar mental.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
@@ -188,10 +188,10 @@ class RegisterState extends State<Register> {
       backgroundColor: const Color(0xFFF1F7F9),
       appBar: AppBar(
         title: const Text(
-          'Zenjourney',
+          'Habitus',
           style: TextStyle(
             fontSize: 36,
-            fontFamily: 'Tangerine',
+            fontFamily: 'Raleway',
             fontWeight: FontWeight.bold,
             color: Color(0xFF193339),
           ),

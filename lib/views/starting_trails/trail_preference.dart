@@ -26,10 +26,14 @@ class _TrilhasState extends State<Trilhas> {
         child: Column(
           children: [
             SizedBox(height: 20),
-            Image.asset(
-              'assets/images/logo.png',
-              width: 150,
-              height: 60,
+            Text(
+              'Habitus',
+              style: TextStyle(
+                fontSize: 20,
+                color: Color(0xFF193339),
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 10),
             Text(

@@ -198,12 +198,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.calendar_today, color: Color(0xFF193339)),
-                        onPressed: () {
-                          // Navegar para o calendário
-                        },
-                      ),
                       Text(
                         'Hábitos faltantes para hoje: ${_newHabitsList.length}',
                         style: TextStyle(
@@ -211,16 +205,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                           fontFamily: 'Raleway',
                           color: Color(0xFF193339),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.filter_list, color: Color(0xFF193339)),
-                            onPressed: () {
-                              // Filtrar hábitos
-                            },
-                          ),
-                        ],
                       ),
                     ],
                   ),

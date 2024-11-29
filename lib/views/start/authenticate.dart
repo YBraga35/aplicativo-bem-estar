@@ -119,10 +119,10 @@ class AuthenticateState extends State<Authenticate> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const Text(
-                            'Zenjourney',
+                            'Habitus',
                             style: TextStyle(
                               fontSize: 36,
-                              fontFamily: 'Tangerine',
+                              fontFamily: 'Raleway',
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF193339),
                             ),

@@ -456,7 +456,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     trailing: DropdownButton<String>(
                       value: selectedLanguage,
-                      items: <String>['Português', 'Inglês', 'Espanhol']
+                      items: <String>['Português']
                           .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
