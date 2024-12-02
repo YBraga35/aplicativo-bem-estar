@@ -52,6 +52,7 @@ class AuthenticateController {
         email: email,
         password: password,
       );
+      userCredential.user!.updateProfile(displayName: name);
       final userCollection = firestore.collection('users');
 
       String userId = userCredential.user!.uid;
@@ -71,7 +72,6 @@ class AuthenticateController {
           'updatedAt':Timestamp.now()
         });
       }
-
       logger.i("Usuário cadastrado com sucesso!");
       return null;
     } on FirebaseAuthException catch (e) {
