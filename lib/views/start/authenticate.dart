@@ -308,33 +308,35 @@ class AuthenticateState extends State<Authenticate> {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      'Ainda não criou sua conta?',
-                                      style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 14,
-                                        color: Color(0xFF193339),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, AppRoutes.register);
-                                      },
-                                      child: const Text(
-                                        'Registre-se',
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        'Ainda não criou sua conta?',
                                         style: TextStyle(
                                           fontFamily: 'Raleway',
                                           fontSize: 14,
-                                          color: Color(0xFF448D9C),
-                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF193339),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                      Expanded(
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(context, AppRoutes.register);
+                                          },
+                                          child: const Text(
+                                            'Registrar',
+                                            style: TextStyle(
+                                              fontFamily: 'Raleway',
+                                              fontSize: 14,
+                                              color: Color(0xFF448D9C),
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             ),
                         ],

@@ -279,7 +279,7 @@ Future<void> saveSelectedHabitsToFirestore(Map<String, Set<Map<String, String>>>
         ),
         children: (habitsByTrail[trail] ?? []).map((habit) {
           String habitName = habit['name'] ?? 'Hábito não definido';
-          String description = habit['description'] ?? 'Descrição não disponível';
+          String description = habit['description'] ?? 'Hábito simples, sem descrição adicional.';
           bool isSelected = selectedHabits[trail]!.any((h)=> h['name'] == habitName);
           return ListTile(
             tileColor: isSelected ? Color(0xFF193339) : Color(0xFF448D9C),
