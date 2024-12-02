@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '/views/starting_trails/habits_selection.dart'; // Importar a nova tela de hábitos
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Trilhas extends StatefulWidget {
   const Trilhas({super.key});
@@ -101,8 +99,6 @@ class _TrilhasState extends State<Trilhas> {
                   if (selectedButtons[4]) selectedTrilhas.add('Social');
                   
                   try{
-                    await saveTracksFirestore(selectedTrilhas);
-                  
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -139,34 +135,6 @@ class _TrilhasState extends State<Trilhas> {
         ),
       ),
     );
-  }
-
-  Future<void> saveTracksFirestore(List<String> tracks) async{
-    try {
-      final String uid = FirebaseAuth.instance.currentUser?.uid ?? "anônimo";
-      
-      final tracksRef = FirebaseFirestore.instance.collection('tracks').doc(uid);
-      final docSnapshot = await tracksRef.get();
-      
-      if(!docSnapshot.exists) {
-        await tracksRef.set({
-          'tracks': tracks,
-          'createdAt': FieldValue.serverTimestamp(),
-          'updatedAt': FieldValue.serverTimestamp(),
-          'userId': uid,
-      });
-      } else {
-        await tracksRef.update({
-          'tracks': tracks,
-          'updatedAt': FieldValue.serverTimestamp(),
-          'userId': uid,
-        });
-      }
-      
-      print("Dados salvos com sucesso!");
-    } catch (e) {
-        print("Erro ao salvar dados no Firestore: $e");
-    }
   }
 
   Widget buildTrailSelection(String trailName, IconData icon, int index) {
