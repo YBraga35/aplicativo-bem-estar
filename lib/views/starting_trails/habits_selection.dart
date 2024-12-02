@@ -134,6 +134,7 @@ Future<void> saveSelectedHabitsToFirestore(Map<String, Set<Map<String, String>>>
           'name': habitData['name'],
           'description': habitData['description'],
           'createdAt': FieldValue.serverTimestamp(),
+          'isCompleted': false
         });
 
         await newHabitDocRef.update({

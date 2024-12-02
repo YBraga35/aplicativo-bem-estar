@@ -4,8 +4,6 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:marquee/marquee.dart';
-import 'package:zenjourney/routes/routes.dart';
 import 'package:zenjourney/string_extension.dart';
 import 'package:zenjourney/views/home/edit_habit.dart';
 
@@ -34,7 +32,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
   ];
 
   final List<Map<String, dynamic>> _newHabitsList = [];
-  final List<bool> _isCheckedList = [];
 
   @override
   void initState() {
@@ -322,7 +319,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),                             
-                              color: _isCheckedList[index]
+                              color: _newHabitsList[index]['isCompleted']
                                   ? Color(0xFFB8FFC7)
                                   : Colors.white,
                             ),
@@ -354,11 +351,16 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   children: [
                                     IconButton(                                  
                                       icon: Image.asset(
-                                        _isCheckedList[index]? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
+                                        _newHabitsList[index]['isCompleted']? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          _isCheckedList[index] = !_isCheckedList[index]; // Alterna o estado
+                                          _newHabitsList[index]['isCompleted'] = !_newHabitsList[index]['isCompleted']; // Alterna o estado
+                                          changeActualState(
+                                            _newHabitsList[index]['track'],
+                                            _newHabitsList[index]['id'],
+                                            _newHabitsList[index]['isCompleted']
+                                            );
                                         });
                                         // Atualizar estado do checkbox
                                       },
@@ -397,7 +399,6 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     // Limpa a lista local antes de carregar os novos dados
     setState(() {
       _newHabitsList.clear();
-      _isCheckedList.clear();
     });
 
     // Para cada trilha, busque os hábitos sugeridos
@@ -411,9 +412,9 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
           'name': data['name'], // Nome do hábito
           'track': trackName,    // Nome da trilha
           'description': data['description'] ?? 'Sem descrição', // Descrição
+          'isCompleted': data['isCompleted'], // booleano que representa o estado do hábito
           'id': data['id']
         });
-        _isCheckedList.add(false); // Adiciona o estado inicial (não concluído)
       }
     }
     setState(() {}); // Atualiza a tela com os dados carregados
@@ -638,7 +639,26 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     },
   );
 }
-  // Validação provisória feita apenas para não fechar o programa
+  Future<void> changeActualState(habitTrack, habitId, isCompleted) async{
+        try {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId != null) {
+        await firestore
+            .collection('users')
+            .doc(userId)
+            .collection('tracks')
+            .doc(habitTrack)
+            .collection('habits')
+            .doc(habitId)
+            .update({
+              'isCompleted':isCompleted
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<bool> addHabit(habitName, habitTrack, habitDescription) async {
     String name = habitName.trim();
     String description = habitDescription.trim();
@@ -657,6 +677,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
       'description':habitDescription,
       'createdAt':Timestamp.now(),
       'updatedAt':Timestamp.now(),
+      'isCompleted':false,
       'id': habitID,
     });
     fetchHabitsFromFirestore();
