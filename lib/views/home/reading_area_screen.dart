@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:zenjourney/views/home/reading_texts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
 
-class ReadingAreaScreen extends StatelessWidget {
-  ReadingAreaScreen({super.key});
+class ReadingAreaScreen extends StatefulWidget {
+  const ReadingAreaScreen({super.key});
 
+  @override
+  ReadingAreaScreenState createState() => ReadingAreaScreenState();
+}
+
+class ReadingAreaScreenState extends State<ReadingAreaScreen> {
   final readingTexts = ReadingTexts().readingTextsList;
+
+  Future<void> _launchLink(url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +55,7 @@ class ReadingAreaScreen extends StatelessWidget {
             itemCount: readingTexts.length,
             itemBuilder: (context, index) {
               final stepsList = readingTexts[index]["stepsList"];
+              final referencesList = readingTexts[index]["references"];
 
               return Container(
                 padding:
@@ -67,23 +81,29 @@ class ReadingAreaScreen extends StatelessWidget {
                     SizedBox(
                       height: 7,
                     ),
-                    buildBoldTexts(context, "Saúde Mental"),
-                    buildTexts(context, readingTexts[index]["mentalHealth"]),
-                    buildBoldTexts(context, "Saúde Física"),
-                    buildTexts(context, readingTexts[index]["physicalHealth"]),
-                    buildBoldTexts(context, readingTexts[index]["stepsTitle"]),
-                    buildBoldTexts(context, stepsList[0]["title"]),
-                    buildTexts(context, stepsList[0]["description"]),
-                    buildBoldTexts(context, stepsList[1]["title"]),
-                    buildTexts(context, stepsList[1]["description"]),
-                    buildBoldTexts(context, stepsList[2]["title"]),
-                    buildTexts(context, stepsList[2]["description"]),
-                    buildBoldTexts(context, stepsList[3]["title"]),
-                    buildTexts(context, stepsList[3]["description"]),
-                    buildBoldTexts(context, stepsList[4]["title"]),
-                    buildTexts(context, stepsList[4]["description"]),
-                    buildBoldTexts(context, "Referências"),
-                    buildTexts(context, readingTexts[index]["finalText"]),
+                    buildBoldTexts("Saúde Mental"),
+                    buildTexts(readingTexts[index]["mentalHealth"]),
+                    buildBoldTexts("Saúde Física"),
+                    buildTexts(readingTexts[index]["physicalHealth"]),
+                    buildBoldTexts(readingTexts[index]["stepsTitle"]),
+                    buildBoldTexts(stepsList[0]["title"]),
+                    buildTexts(stepsList[0]["description"]),
+                    buildBoldTexts(stepsList[1]["title"]),
+                    buildTexts(stepsList[1]["description"]),
+                    buildBoldTexts(stepsList[2]["title"]),
+                    buildTexts(stepsList[2]["description"]),
+                    buildBoldTexts(stepsList[3]["title"]),
+                    buildTexts(stepsList[3]["description"]),
+                    buildBoldTexts(stepsList[4]["title"]),
+                    buildTexts(stepsList[4]["description"]),
+                    buildBoldTexts("Referências"),
+                    buildBoldTexts(referencesList[0]["source"]),
+                    buildTexts(referencesList[0]["title"]),
+                    buildLinkText(referencesList[0]["url"]),
+                    buildBoldTexts(referencesList[1]["source"]),
+                    buildTexts(referencesList[1]["title"]),
+                    buildLinkText(referencesList[1]["url"]),
+                    buildTexts(readingTexts[index]["finalText"]),
                   ],
                 ),
               );
@@ -92,7 +112,7 @@ class ReadingAreaScreen extends StatelessWidget {
     ]);
   }
 
-  Widget buildBoldTexts(BuildContext context, String text) {
+  Widget buildBoldTexts(String text) {
     return Text(
       text,
       style: TextStyle(
@@ -104,7 +124,7 @@ class ReadingAreaScreen extends StatelessWidget {
     );
   }
 
-  Widget buildTexts(BuildContext context, String text) {
+  Widget buildTexts(String text) {
     return Text(
       text,
       style: TextStyle(
@@ -113,5 +133,21 @@ class ReadingAreaScreen extends StatelessWidget {
         color: Color(0xFF193339),
       ),
     );
+  }
+
+  Widget buildLinkText(String urlText) {
+    final Uri url = Uri.parse(urlText);
+    return RichText(
+        text: TextSpan(
+            text: urlText,
+            style: TextStyle(
+                fontSize: 17,
+                fontFamily: "raleway",
+                color: Color(0xFF0000FF),
+                decoration: TextDecoration.underline),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _launchLink(url);
+              }));
   }
 }
