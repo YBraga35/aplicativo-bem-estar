@@ -14,23 +14,18 @@ class RegisterState extends State<Register> {
   final AuthenticateController _authenticateController = AuthenticateController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final MaskedTextController _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   String? _errorMessage;
-  String? _selectedPronome;
   double _passwordStrength = 0;
-
-  final List<String> _pronomesOptions = ['Ele/Dele', 'Ela/Dela', 'Elu/Delu'];
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
-    _telefoneController.dispose();
     _ageController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -284,53 +279,6 @@ class RegisterState extends State<Register> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, insira seu e-mail';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _telefoneController,
-                      decoration: InputDecoration(
-                        labelText: 'Telefone',
-                        labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
-                        prefixIcon: const Icon(Icons.phone, color: Color(0xFF193339)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira seu telefone';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    DropdownButtonFormField<String>(
-                      value: _selectedPronome,
-                      hint: const Text('Selecione seu pronome'),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedPronome = newValue;
-                        });
-                      },
-                      items: _pronomesOptions.map((String pronome) {
-                        return DropdownMenuItem<String>(
-                          value: pronome,
-                          child: Text(pronome),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.person_outline, color: Color(0xFF193339)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, selecione seu pronome';
                         }
                         return null;
                       },

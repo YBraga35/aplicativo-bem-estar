@@ -1,35 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:zenjourney/views/home/reading_texts.dart';
 
 class ReadingAreaScreen extends StatelessWidget {
   ReadingAreaScreen({super.key});
 
-  final List<Map<String, dynamic>> readingTextsList = [
-    {
-      "title": "Lorem Ipsum",
-      "text":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-    },
-    {
-      "title": "Lorem Ipsum dolor",
-      "text":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    },
-    {
-      "title": "Lorem Ipsum dolor sit",
-      "text":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio."
-    },
-    {
-      "title": "Lorem Ipsum dolor sit amet",
-      "text":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio.\n\nIn vitae eros ac orci dapibus ultricies non et eros."
-    },
-    {
-      "title": "Lorem Ipsum dolor sit amet, consectetur",
-      "text":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio.\n\nIn vitae eros ac orci dapibus ultricies non et eros."
-    }
-  ];
+  final readingTexts = ReadingTexts().readingTextsList;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +39,10 @@ class ReadingAreaScreen extends StatelessWidget {
       ),
       Expanded(
         child: ListView.builder(
-            itemCount: readingTextsList.length,
+            itemCount: readingTexts.length,
             itemBuilder: (context, index) {
+              final stepsList = readingTexts[index]["stepsList"];
+
               return Container(
                 padding:
                     EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 7.5),
@@ -78,7 +55,7 @@ class ReadingAreaScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      readingTextsList[index]["title"],
+                      readingTexts[index]["title"],
                       style: TextStyle(
                         height: 1.1,
                         fontSize: 22,
@@ -87,20 +64,54 @@ class ReadingAreaScreen extends StatelessWidget {
                         color: Color(0xFF448D9C),
                       ),
                     ),
-                    SizedBox(height: 7,),
-                    Text(
-                      readingTextsList[index]["text"],
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontFamily: "raleway",
-                        color: Color(0xFF193339),
-                      ),
+                    SizedBox(
+                      height: 7,
                     ),
+                    buildBoldTexts(context, "Saúde Mental"),
+                    buildTexts(context, readingTexts[index]["mentalHealth"]),
+                    buildBoldTexts(context, "Saúde Física"),
+                    buildTexts(context, readingTexts[index]["physicalHealth"]),
+                    buildBoldTexts(context, readingTexts[index]["stepsTitle"]),
+                    buildBoldTexts(context, stepsList[0]["title"]),
+                    buildTexts(context, stepsList[0]["description"]),
+                    buildBoldTexts(context, stepsList[1]["title"]),
+                    buildTexts(context, stepsList[1]["description"]),
+                    buildBoldTexts(context, stepsList[2]["title"]),
+                    buildTexts(context, stepsList[2]["description"]),
+                    buildBoldTexts(context, stepsList[3]["title"]),
+                    buildTexts(context, stepsList[3]["description"]),
+                    buildBoldTexts(context, stepsList[4]["title"]),
+                    buildTexts(context, stepsList[4]["description"]),
+                    buildBoldTexts(context, "Referências"),
+                    buildTexts(context, readingTexts[index]["finalText"]),
                   ],
                 ),
               );
             }),
       ),
     ]);
+  }
+
+  Widget buildBoldTexts(BuildContext context, String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        fontFamily: "raleway",
+        color: Color(0xFF193339),
+      ),
+    );
+  }
+
+  Widget buildTexts(BuildContext context, String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: "raleway",
+        color: Color(0xFF193339),
+      ),
+    );
   }
 }
