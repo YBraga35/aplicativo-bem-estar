@@ -158,7 +158,7 @@ class AuthenticateState extends State<Authenticate> {
                               TextFormField(
                                 controller: _emailController,
                                 decoration: InputDecoration(
-                                  labelText: 'Nome do usuário ou E-mail',
+                                  labelText: 'E-mail',
                                   labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
                                   prefixIcon: const Icon(Icons.email, color: Color(0xFF193339)),
                                   border: OutlineInputBorder(

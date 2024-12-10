@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/routes/routes.dart'; // Certifique-se de que o AppRoutes está corretamente importado
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -135,11 +136,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Nome do Usuário',
+                            child: Text(
+                              '${FirebaseAuth.instance.currentUser!.displayName}',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'Raleway',
@@ -147,18 +145,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: Color(0xFF193339),
                               ),
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Pronomes',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF193339),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                       Icon(
                         Icons.emoji_events,
@@ -176,9 +162,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }),
                   _buildButton(context, 'Configurações e Preferências', () {
                     _showSettingsModal(context);
-                  }),
-                  _buildButton(context, 'Inbox', () {
-                    _showInboxModal(context);
                   }),
                   _buildButton(context, 'Sair', () {
                     Navigator.pushReplacementNamed(context, AppRoutes.authenticate);
@@ -299,7 +282,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // Modal para editar perfil
   void _showEditProfileModal(BuildContext context) {
     final TextEditingController nameController = TextEditingController();
-    final TextEditingController pronounsController = TextEditingController();
+    final TextEditingController ageController = TextEditingController();
 
     showModalBottomSheet(
       context: context,
@@ -348,9 +331,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  controller: pronounsController,
+                  controller: ageController,
                   decoration: const InputDecoration(
-                    labelText: 'Pronomes',
+                    labelText: 'Idade',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -392,7 +375,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // Modal para configurações e preferências
   void _showSettingsModal(BuildContext context) {
     bool notificationsEnabled = true;
-    String selectedLanguage = 'Português';
 
     showModalBottomSheet(
       context: context,
@@ -444,37 +426,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       });
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.language, color: Color(0xFF193339)),
-                    title: const Text(
-                      'Idioma',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'Raleway',
-                        color: Color(0xFF193339),
-                      ),
-                    ),
-                    trailing: DropdownButton<String>(
-                      value: selectedLanguage,
-                      items: <String>['Português']
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Raleway',
-                                color: Color(0xFF193339),
-                              )),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedLanguage = newValue!;
-                        });
-                      },
-                    ),
-                  ),
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
@@ -506,127 +457,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             );
           },
-        );
-      },
-    );
-  }
-
-  // Modal para Inbox
-  void _showInboxModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-      ),
-      builder: (BuildContext ctx) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 50,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Inbox',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF448D9C),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: _messages.isEmpty
-                    ? const Text(
-                        'Nenhuma mensagem nova.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Raleway',
-                          color: Color(0xFF193339),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: _messages.length,
-                        itemBuilder: (context, index) {
-                          final message = _messages[index];
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: message.isRead
-                                  ? const Color(0xFF448D9C)
-                                  : const Color(0xFFFFA500),
-                              child: Icon(
-                                message.isRead ? Icons.mark_email_read : Icons.mark_email_unread,
-                                color: Colors.white,
-                              ),
-                            ),
-                            title: Text(
-                              message.sender,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF193339),
-                              ),
-                            ),
-                            subtitle: Text(
-                              message.content,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Raleway',
-                                color: Color(0xFF193339),
-                              ),
-                            ),
-                            trailing: Text(
-                              _formatTimestamp(message.timestamp),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'Raleway',
-                                color: Color(0xFF193339),
-                              ),
-                            ),
-                            onTap: () {
-                              _openMessageDetail(context, message);
-                            },
-                          );
-                        },
-                      ),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF448D9C),
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  'Fechar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
         );
       },
     );
