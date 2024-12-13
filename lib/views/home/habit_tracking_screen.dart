@@ -312,7 +312,9 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                   ],
                                 );
                               },
-                            );
+                            ).then((value) {
+                              fetchHabitsFromFirestore();
+                            });
                           },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10),
