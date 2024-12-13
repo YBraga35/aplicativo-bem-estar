@@ -59,9 +59,10 @@ class AuthenticateState extends State<Authenticate> {
 
     DocumentSnapshot userDoc = await userDocRef.get();
     if (userDoc.exists) {
-      if (userDoc['habitsSelected'] == true) {
+      Map<String, dynamic> userData = (userDoc.data() as Map<String, dynamic>);
+      if (userData.containsKey('habitsSelected') && userDoc['habitsSelected'] == true) {
         Navigator.pushReplacementNamed(context, AppRoutes.home);
-      } else if (userDoc['trails'] != null) {
+      } else if (userData.containsKey('trails') && userDoc['trails'] == true) {
         Navigator.pushReplacementNamed(context, AppRoutes.habitsSelection, arguments: List<String>.from(userDoc['trails']));
       } else {
         Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
