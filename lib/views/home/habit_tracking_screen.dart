@@ -79,6 +79,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.only(top: 30),
                   decoration: BoxDecoration(
                     color: const Color(0xFF448D9C),
                     borderRadius: BorderRadius.circular(20),
@@ -106,84 +107,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Dias em Sequência',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF193339),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              '10 dias',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF448D9C),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Container(
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: CarouselSlider.builder(
-                          slideBuilder: (index) {
-                            return _buildCarouselItem(
-                              'Trilha ${index + 1}',
-                              _getSubtitle(index),
-                            );
-                          },
-                          unlimitedMode: true,
-                          slideTransform: CubeTransform(),
-                          slideIndicator: CircularSlideIndicator(
-                            padding: EdgeInsets.only(bottom: 16),
-                          ),
-                          itemCount: 3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 30),
               ],
             ),
             const SizedBox(height: 20),
