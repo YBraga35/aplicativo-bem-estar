@@ -116,36 +116,51 @@ class _HabitsScreenState extends State<HabitsScreen> {
   @override
   void initState() {
     super.initState();
-    for (var trail in widget.trails) {
-      selectedHabits[trail] = {};
-    }
+    _checkUserHabits();
   }
 
-Future<void> saveSelectedHabitsToFirestore(Map<String, Set<Map<String, String>>> selectedHabits) async {
-  try {
+  Future<void> _checkUserHabits() async {
     final String uid = FirebaseAuth.instance.currentUser?.uid ?? "anonimo";
     final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
-    for (var trail in selectedHabits.keys) {
-      final trackDocRef = userDocRef.collection('tracks').doc(trail.toLowerCase());
-
-      for (var habitData in selectedHabits[trail]!) {
-        final newHabitDocRef = await trackDocRef.collection('habits').add({
-          'name': habitData['name'],
-          'description': habitData['description'],
-          'createdAt': FieldValue.serverTimestamp(),
-          'isCompleted': false
-        });
-
-        await newHabitDocRef.update({
-          'id': newHabitDocRef.id,
-        });
+    DocumentSnapshot userDoc = await userDocRef.get();
+    if (userDoc.exists && userDoc['habitsSelected'] == true) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      for (var trail in widget.trails) {
+        selectedHabits[trail] = {};
       }
     }
-  } catch (e) {
-    print("Erro ao salvar hábitos no Firestore: $e");
   }
-}
+
+  Future<void> saveSelectedHabitsToFirestore(Map<String, Set<Map<String, String>>> selectedHabits) async {
+    try {
+      final String uid = FirebaseAuth.instance.currentUser?.uid ?? "anonimo";
+      final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
+      for (var trail in selectedHabits.keys) {
+        final trackDocRef = userDocRef.collection('tracks').doc(trail.toLowerCase());
+
+        for (var habitData in selectedHabits[trail]!) {
+          final newHabitDocRef = await trackDocRef.collection('habits').add({
+            'name': habitData['name'],
+            'description': habitData['description'],
+            'createdAt': FieldValue.serverTimestamp(),
+            'isCompleted': false
+          });
+
+          await newHabitDocRef.update({
+            'id': newHabitDocRef.id,
+          });
+        }
+      }
+
+      // Marcar que o usuário já selecionou os hábitos
+      await userDocRef.set({'habitsSelected': true}, SetOptions(merge: true));
+    } catch (e) {
+      print("Erro ao salvar hábitos no Firestore: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

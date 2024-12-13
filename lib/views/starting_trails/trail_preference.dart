@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '/views/starting_trails/habits_selection.dart'; // Importar a nova tela de hábitos
 
 class Trilhas extends StatefulWidget {
@@ -10,6 +11,34 @@ class Trilhas extends StatefulWidget {
 
 class _TrilhasState extends State<Trilhas> {
   List<bool> selectedButtons = List.generate(5, (index) => false);
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final String userId = 'user123'; // Substitua pelo ID do usuário real
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserTrails();
+  }
+
+  Future<void> _checkUserTrails() async {
+    DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+    if (userDoc.exists && userDoc['trails'] != null) {
+      List<String> userTrails = List<String>.from(userDoc['trails']);
+      setState(() {
+        selectedButtons[0] = userTrails.contains('Fitness');
+        selectedButtons[1] = userTrails.contains('Sono');
+        selectedButtons[2] = userTrails.contains('Alimentação');
+        selectedButtons[3] = userTrails.contains('Hobbies');
+        selectedButtons[4] = userTrails.contains('Social');
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HabitsScreen(trails: userTrails),
+        ),
+      );
+    }
+  }
 
   bool anyButtonSelected() {
     return selectedButtons.contains(true);
@@ -98,18 +127,21 @@ class _TrilhasState extends State<Trilhas> {
                   if (selectedButtons[3]) selectedTrilhas.add('Hobbies');
                   if (selectedButtons[4]) selectedTrilhas.add('Social');
                   
-                  try{
+                  try {
+                    await _firestore.collection('users').doc(userId).set({
+                      'trails': selectedTrilhas,
+                    });
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            HabitsScreen(trails: selectedTrilhas),
+                        builder: (context) => HabitsScreen(trails: selectedTrilhas),
                       ),
                     );
-                  } catch (e){
+                  } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Erro ao salvar as trilhas: $e')),
+                        content: Text('Erro ao salvar as trilhas: $e'),
+                      ),
                     );
                   }
                 }
