@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import '/routes/routes.dart';
 import '/controllers/authenticate_controller.dart';
 
@@ -102,8 +101,8 @@ class RegisterState extends State<Register> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'O Habitus é destinado a fornecer ferramentas e recursos para ajudar no bem-estar mental. '
-                'Não substitui o aconselhamento profissional ou tratamento médico. Sempre consulte um profissional de saúde qualificado para quaisquer questões de saúde.\n\n',
+                'O Habitus é um aplicativo que possui como objetivo sugerir ferramentas e recursos para ajudar no bem-estar mental. '
+                'Este aplicativo não substitui o aconselhamento profissional ou tratamento médico. Sempre consulte um profissional de saúde qualificado para quaisquer questões de saúde.\n\n',
               ),
               Text(
                 '2. Conta de Usuário\n',
@@ -124,7 +123,7 @@ class RegisterState extends State<Register> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'Você é responsável pelo conteúdo que publica no Habitus. Não publique conteúdo que seja ofensivo, ilegal ou que viole os direitos de terceiros.\n\n',
+                'Você é responsável pelo conteúdo que publica no Habitus. Não publique conteúdo que seja ofensivo, ilegal, que viole os direitos de terceiros ou seja contrário aos Direitos Humanos. \n\n',
               ),
               Text(
                 '5. Limitação de Responsabilidade\n',
@@ -138,7 +137,7 @@ class RegisterState extends State<Register> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                'Podemos modificar estes termos de uso a qualquer momento. Notificaremos você sobre quaisquer alterações significativas. O uso continuado do aplicativo após tais alterações constitui sua aceitação dos novos termos.\n\n',
+                'Podemos modificar estes termos de uso a qualquer momento. Notificaremos você sobre quaisquer alterações significativas. O uso continuado do aplicativo, após tais alterações, constitui sua aceitação dos novos termos.\n\n',
               ),
               Text(
                 '7. Encerramento\n',
@@ -146,13 +145,6 @@ class RegisterState extends State<Register> {
               ),
               Text(
                 'Podemos encerrar ou suspender sua conta a qualquer momento, sem aviso prévio, se você violar estes termos de uso.\n\n',
-              ),
-              Text(
-                '8. Contato\n',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Se você tiver alguma dúvida sobre estes termos de uso, entre em contato conosco através do suporte@zenjourney.com.\n\n',
               ),
               Text(
                 'Obrigado por usar o Habitus. Esperamos que nosso aplicativo ajude você a alcançar um maior bem-estar mental.',
