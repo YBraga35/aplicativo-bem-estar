@@ -15,23 +15,15 @@ class _HabitsScreenState extends State<HabitsScreen> {
   Map<String, List<Map<String, String>>> habitsByTrail = {
     'Fitness': [
       {
-        'name': 'Fazer exercício aeróbico (caminhar, bicicleta) 30 minutos, 5 dias por semana',
-        'description': 'É indicado que se faça 150min de exercício aeróbico semanal. Sendo que ao menos 30 minutos são necessários por vez para que tenhamos os melhores benefícios à saude.'
+        'name': 'Fazer exercício (30 minutos)',
+        'description': 'É indicado que se faça 30min de exercício. São necessários ao menos 30 minutos por vez para que tenhamos os melhores benefícios à saude.'
       },
       {
-        'name': 'Levantar e caminhar por 2 minutos a cada hora',
-        'description': 'Para quem trabalha sentado ou parado, apenas 2 minutinhos de caminhada para tomar água ou ir ao banheiro diminui o risco de problemas vasculares e cardíacos de forma significativa. Mesmo para quem faz exercícios regularmente.'
+        'name': 'Tirar pequenos intervalos ao longo do dia',
+        'description': "Tirar pequenos intervalos durante o dia ajuda a reduzir o impacto do sedentarismo, melhora a circulação, alivia o estresse e aumenta a produtividade no trabalho ou nos estudos."
       },
       {
-        'name': 'Fazer 3 treinos de força por semana',
-        'description': 'Força e equilíbrio são os principais protetores contra quedas e ferimentos ao longo da vida. Aumentando a nossa expectativa. Ambos precisam ser desenvolvidos ao longo dos anos. Faz a diferença para conseguir levantar com facilidade do chão ou segurar um corrimão. Nunca é tarde para começar.'
-      },
-      {
-        'name': 'Fazer 3 treinos de equilíbrio por semana',
-        'description': 'Força e equilíbrio são os principais protetores contra quedas e ferimentos ao longo da vida. Aumentando a nossa expectativa. Ambos precisam ser desenvolvidos ao longo dos anos. Faz a diferença para conseguir levantar com facilidade do chão ou segurar um corrimão. Nunca é tarde para começar.'
-      },
-      {
-        'name': 'Fazer uma caminhada após às refeições principais',
+        'name': 'Caminhar após o almoço (15 min)',
         'description': 'Caminhar lentamente ou moderadamente logo após refeições pesadas diminui picos de glicemia, o que pode ajudar com manutenção do peso e principalmente no controle de diabetes.'
       },
     ],
@@ -43,10 +35,6 @@ class _HabitsScreenState extends State<HabitsScreen> {
       {
         'name': 'Parar de tomar café, chimarrão e chá preto às 14:00 ou 8 horas antes de dormir',
         'description': 'A cafeína pode afetar a sonolência e qualidade do sono de muitas pessoas'
-      },
-      {
-        'name': 'Não beber álcool durante a semana',
-        'description': 'Existem evidências de que o consumo de álcool afeta a qualidade do sono. O álcool tem efeito sedativo, que é muito diferente de um sono saudável e restaurador. Portanto, mesmo com 9 horas de sono, o álcool afeta a qualidade e quantidade do sono REM e profundo, que são extremamente importantes para a recuperação do nosso cérebro e formação de memórias.'
       },
       {
         'name': 'Parar de usar telas com alta luminosidade 2 horas antes de dormir',
@@ -67,7 +55,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
         'description': 'A chave para um intestino funcionando e uma microbiota saudável é variedade de frutas e legumes na dieta.'
       },
       {
-        'name': 'Tomar 1.5L de água pura por dia',
+        'name': 'Tomar 1.5L de água',
         'description': 'Hidratação é bom de todas as formas. Mas é importante incluir água nesta lista, principalmente em dias quentes.'
       },
       {
@@ -77,36 +65,12 @@ class _HabitsScreenState extends State<HabitsScreen> {
     ],
     'Hobbies': [
       {
-        'name':'Estudar violão uma vez por semana',
-      },
-      {
-        'name':'Estudar piano uma vez por semana',
-      },
-      {
-        'name':'Cantar uma vez por semana',
-      },
-      {
-        'name':'Ler um livro durante uma hora por semana',
-      },
-      {
-        'name':'Jogar futebol uma vez por semana',
-      },
-      {
-        'name':'Jogar vôlei uma vez por semana',
+        'name':'Tirar 30 minutos para um hobby '
       },
     ],
     'Social': [
       {
-        'name':'Jogar futebol uma vez por semana',
-      },
-      {
-        'name':'Jogar vôlei uma vez por semana',
-      },
-      {
-        'name':'Ligar para um amigo no final de semana',
-      },
-      {
-        'name':'Tomar um café com colegas pelo menos uma vez na semana',
+        'name':'Conversar com um amigo ou colega',
       },
     ],
   };
