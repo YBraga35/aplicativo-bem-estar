@@ -27,59 +27,64 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffe0e6ea),
-      body: SafeArea(
-          child: IndexedStack(
-        index: _selectedIndex,
-        children: _widgetOptions,
-      )),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F1F1), // Branco acinzentado
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+    return WillPopScope(
+      onWillPop: () async {
+        // Impede que o usuário volte para a tela anterior
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffe0e6ea),
+        body: SafeArea(
+            child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
+        )),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F1F1), // Branco acinzentado
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: _buildIcon('assets/icons/habits.png', 0),
+                label: 'Hábitos',
+              ),
+              BottomNavigationBarItem(
+                icon: _buildIcon('assets/icons/reading.png', 1),
+                label: 'Leitura',
+              ),
+              BottomNavigationBarItem(
+                icon: _buildIcon('assets/icons/profile.png', 2),
+                label: 'Perfil',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: const Color(0xFF006400),
+            unselectedItemColor: Colors.grey,
+            selectedLabelStyle: const TextStyle(
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w500,
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          items: <BottomNavigationBarItem>[
-           
-            BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/habits.png', 0),
-              label: 'Hábitos',
+            unselectedLabelStyle: const TextStyle(
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w500,
             ),
-            BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/reading.png', 1),
-              label: 'Leitura',
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon('assets/icons/profile.png', 2),
-              label: 'Perfil',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xFF006400),
-          unselectedItemColor: Colors.grey,
-          selectedLabelStyle: const TextStyle(
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w500,
+            onTap: _onItemTapped,
           ),
-          unselectedLabelStyle: const TextStyle(
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w500,
-          ),
-          onTap: _onItemTapped,
         ),
       ),
     );

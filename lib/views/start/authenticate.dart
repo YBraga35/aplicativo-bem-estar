@@ -1,6 +1,8 @@
 import 'package:zenjourney/controllers/authenticate_controller.dart';
 import 'package:flutter/material.dart';
 import '/routes/routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});
@@ -33,11 +35,11 @@ class AuthenticateState extends State<Authenticate> {
           email: _emailController.text,
           password: _senhaController.text,
         );
-        if(isSuccess != null){
+        if (isSuccess != null) {
           return _showErrorDialog('Erro ao fazer login. Verifique suas credenciais.');
         }
         if (mounted) {
-          Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
+          await _checkUserSelections();
         }
       } catch (error) {
         _showErrorDialog('Erro ao fazer login. Verifique suas credenciais.');
@@ -48,6 +50,24 @@ class AuthenticateState extends State<Authenticate> {
           });
         }
       }
+    }
+  }
+
+  Future<void> _checkUserSelections() async {
+    final String uid = FirebaseAuth.instance.currentUser?.uid ?? "anonimo";
+    final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
+    DocumentSnapshot userDoc = await userDocRef.get();
+    if (userDoc.exists) {
+      if (userDoc['habitsSelected'] == true) {
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
+      } else if (userDoc['trails'] != null) {
+        Navigator.pushReplacementNamed(context, AppRoutes.habitsSelection, arguments: List<String>.from(userDoc['trails']));
+      } else {
+        Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
+      }
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.trailPreference);
     }
   }
 
@@ -88,226 +108,189 @@ class AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF1F7F9),
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: screenWidth * 0.85,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20.0),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 8.0,
-                            spreadRadius: 1.0,
-                            offset: Offset(0.0, 4.0),
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Text(
-                            'Habitus',
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF193339),
+    return WillPopScope(
+      onWillPop: () async {
+        // Impede que o usuário volte para a tela anterior
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF1F7F9),
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: screenWidth * 0.85,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 8.0,
+                              spreadRadius: 1.0,
+                              offset: Offset(0.0, 4.0),
                             ),
-                          ),
-                          Column(
-                            children: const [
-                              Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF448D9C),
-                                ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Text(
+                              'Habitus',
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF193339),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 16.0),
-                                child: Text(
-                                  'Entre na sua conta para manter seu progresso',
+                            ),
+                            Column(
+                              children: const [
+                                Text(
+                                  'Login',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 24,
                                     fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF193339),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              TextFormField(
-                                controller: _emailController,
-                                decoration: InputDecoration(
-                                  labelText: 'E-mail',
-                                  labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
-                                  prefixIcon: const Icon(Icons.email, color: Color(0xFF193339)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF448D9C),
                                   ),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, insira seu nome de usuário ou e-mail';
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.emailAddress,
-                              ),
-                              const SizedBox(height: 8),
-                              TextFormField(
-                                controller: _senhaController,
-                                decoration: InputDecoration(
-                                  labelText: 'Senha',
-                                  labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
-                                  prefixIcon: const Icon(Icons.lock, color: Color(0xFF193339)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                ),
-                                obscureText: true,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, insira sua senha';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 8),
-                              Align(
-                                alignment: Alignment.center,
-                                child: TextButton(
-                                  onPressed: () {
-                                    // Ação de esqueci minha senha
-                                  },
-                                  child: const Text(
-                                    'Esqueci minha senha',
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 16.0),
+                                  child: Text(
+                                    'Entre na sua conta para manter seu progresso',
                                     style: TextStyle(
-                                      color: Color(0xFF193339),
+                                      fontSize: 16,
                                       fontFamily: 'Raleway',
-                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFF193339),
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          if (_isLoading)
-                            const CircularProgressIndicator()
-                          else
+                              ],
+                            ),
                             Column(
                               children: [
-                                ElevatedButton(
-                                  onPressed: _loginEmailPassword,
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.1,
-                                      vertical: 12,
-                                    ),
-                                    backgroundColor: const Color(0xFF448D9C),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
+                                TextFormField(
+                                  controller: _emailController,
+                                  decoration: InputDecoration(
+                                    labelText: 'E-mail',
+                                    labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
+                                    prefixIcon: const Icon(Icons.email, color: Color(0xFF193339)),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'Entrar na conta',
-                                    style: TextStyle(
-                                      fontFamily: 'Raleway',
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, insira seu nome de usuário ou e-mail';
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
                                 ),
                                 const SizedBox(height: 8),
-                                ElevatedButton.icon(
-                                  onPressed: _authenticateController.loginComGoogle,
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.1,
-                                      vertical: 12,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    elevation: 2,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      side: BorderSide(color: Colors.grey.shade300),
+                                TextFormField(
+                                  controller: _senhaController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Senha',
+                                    labelStyle: const TextStyle(fontFamily: 'Raleway', color: Color(0xFF193339)),
+                                    prefixIcon: const Icon(Icons.lock, color: Color(0xFF193339)),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
                                     ),
                                   ),
-                                  icon: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        'G',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  label: const Text(
-                                    'Entrar com Google',
-                                    style: TextStyle(
-                                      fontFamily: 'Raleway',
-                                      fontSize: 18,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, insira sua senha';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Divider(
-                                        color: Colors.grey.shade400,
-                                        thickness: 1,
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      // Ação de esqueci minha senha
+                                    },
+                                    child: const Text(
+                                      'Esqueci minha senha',
+                                      style: TextStyle(
+                                        color: Color(0xFF193339),
+                                        fontFamily: 'Raleway',
+                                        fontSize: 14,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: Text(
-                                        'OU',
-                                        style: TextStyle(
-                                          fontFamily: 'Raleway',
-                                          fontSize: 14,
-                                          color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (_isLoading)
+                              const CircularProgressIndicator()
+                            else
+                              Column(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: _loginEmailPassword,
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.1,
+                                        vertical: 12,
+                                      ),
+                                      backgroundColor: const Color(0xFF448D9C),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Entrar na conta',
+                                      style: TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Divider(
+                                          color: Colors.grey.shade400,
+                                          thickness: 1,
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Divider(
-                                        color: Colors.grey.shade400,
-                                        thickness: 1,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                                        child: Text(
+                                          'OU',
+                                          style: TextStyle(
+                                            fontFamily: 'Raleway',
+                                            fontSize: 14,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
+                                      Expanded(
+                                        child: Divider(
+                                          color: Colors.grey.shade400,
+                                          thickness: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -337,12 +320,13 @@ class AuthenticateState extends State<Authenticate> {
                                       ),
                                     ],
                                   ),
-                              ],
-                            ),
-                        ],
+                                ],
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

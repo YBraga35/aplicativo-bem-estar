@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '/routes/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SlideContent {
   final String title;
   final String content;
-  SlideContent(this.title, this.content);
+  final String imagePath;
+  SlideContent(this.title, this.content, this.imagePath);
 }
 
 class Sobre extends StatefulWidget {
@@ -21,12 +23,14 @@ class _SobreState extends State<Sobre> {
 
   final List<SlideContent> _slides = [
     SlideContent(
-      'Habitus',
+      'Missão e Valores',
       'O Habitus é um aplicativo dedicado a ajudar você a alcançar uma vida melhor através de pequenas mudanças diárias. Nossa missão é guiá-lo(a) em uma jornada de autodescoberta e bem-estar, fornecendo ferramentas e recursos para melhorar sua saúde mental, física e emocional.',
+      'assets/icons/mental.svg',
     ),
     SlideContent(
       'Propósito',
       'Acreditamos que pequenas mudanças podem ter um grande impacto ao longo do tempo, e estamos aqui para apoiar você em cada passo dessa jornada.',
+      'assets/icons/path.svg',
     ),
   ];
 
@@ -104,9 +108,35 @@ class _SobreState extends State<Sobre> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
-            _buildSectionTitle(slide.title),
-            const SizedBox(height: 30),
-            _buildSectionContent(slide.content),
+            if (slide.title == 'Missão e Valores') ...[
+              _buildSectionTitle(slide.title),
+              const SizedBox(height: 10),
+              _buildSectionContent(slide.content),
+              const SizedBox(height: 2),
+              SvgPicture.asset(
+                slide.imagePath,
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.3,
+                fit: BoxFit.contain,
+                semanticsLabel: slide.title,
+                placeholderBuilder: (BuildContext context) =>
+                    const CircularProgressIndicator(),
+              ),
+            ] else ...[
+              _buildSectionTitle(slide.title),
+              const SizedBox(height: 10),
+              _buildSectionContent(slide.content),
+              const SizedBox(height: 10),
+              SvgPicture.asset(
+                slide.imagePath,
+                width: MediaQuery.of(context).size.width * 0.10,
+                height: MediaQuery.of(context).size.height * 0.4,
+                fit: BoxFit.contain,
+                semanticsLabel: slide.title,
+                placeholderBuilder: (BuildContext context) =>
+                    const CircularProgressIndicator(),
+              ),
+            ],
           ],
         ),
       ),
