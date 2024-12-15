@@ -88,7 +88,8 @@ class _HabitsScreenState extends State<HabitsScreen> {
     final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
     DocumentSnapshot userDoc = await userDocRef.get();
-    if (userDoc.exists && userDoc['habitsSelected'] == true) {
+    Map<String, dynamic> userDocData = userDoc.data() as Map<String, dynamic>;
+    if (userDocData.containsKey('habitsSelected') && userDoc['habitsSelected'] == true) {
       Navigator.pushReplacementNamed(context, '/home');
     } else {
       for (var trail in widget.trails) {
@@ -260,7 +261,11 @@ class _HabitsScreenState extends State<HabitsScreen> {
         children: (habitsByTrail[trail] ?? []).map((habit) {
           String habitName = habit['name'] ?? 'Hábito não definido';
           String description = habit['description'] ?? 'Hábito simples, sem descrição adicional.';
-          bool isSelected = selectedHabits[trail]!.any((h)=> h['name'] == habitName);
+          bool isSelected = false;
+          if(selectedHabits.isNotEmpty) {
+            isSelected =
+                selectedHabits[trail]!.any((h) => h['name'] == habitName);
+          }
           return ListTile(
             tileColor: isSelected ? Color(0xFF193339) : Color(0xFF448D9C),
             title: Text(

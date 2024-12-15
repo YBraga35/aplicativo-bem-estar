@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/views/starting_trails/habits_selection.dart'; // Importar a nova tela de hábitos
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Trilhas extends StatefulWidget {
   const Trilhas({super.key});
@@ -12,7 +13,7 @@ class Trilhas extends StatefulWidget {
 class _TrilhasState extends State<Trilhas> {
   List<bool> selectedButtons = List.generate(5, (index) => false);
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String userId = 'user123'; // Substitua pelo ID do usuário real
+  final String userId = FirebaseAuth.instance.currentUser?.uid ?? "anonimo";
 
   @override
   void initState() {
@@ -128,7 +129,7 @@ class _TrilhasState extends State<Trilhas> {
                   if (selectedButtons[4]) selectedTrilhas.add('Social');
                   
                   try {
-                    await _firestore.collection('users').doc(userId).set({
+                    await _firestore.collection('users').doc(userId).update({
                       'trails': selectedTrilhas,
                     });
                     Navigator.push(

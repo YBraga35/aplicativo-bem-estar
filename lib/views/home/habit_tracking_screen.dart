@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +21,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
   final TextEditingController _habitDescriptionController =
       TextEditingController();
   String? _selectedTrack;
+  bool _isLoading = false;
 
   final List<String> _tracksList = [
     'Fitness',
@@ -70,241 +70,252 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffe0e6ea),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Parte Superior
-            Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  margin: const EdgeInsets.only(top: 30),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF448D9C),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Olá, ${FirebaseAuth.instance.currentUser!.displayName}',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 30),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Parte Inferior
-            Expanded(
-              child: Column(
+      body: Stack(
+        children: [Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Parte Superior
+              Column(
                 children: [
-                  // Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Hábitos faltantes para hoje: ${_newHabitsList.length}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Raleway',
-                          color: Color(0xFF193339),
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.only(top: 30),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF448D9C),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Olá, ${FirebaseAuth.instance.currentUser!.displayName}',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  // Listagem de Hábitos
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount:
-                          _newHabitsList.length, // Número de hábitos do dia
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            // Mostrar pop-up com detalhes do hábito
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Column(
+                  const SizedBox(height: 30),
+                ],
+              ),
+              const SizedBox(height: 10),
+              // Parte Inferior
+              Expanded(
+                child: Column(
+                  children: [
+                    // Header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Hábitos faltantes para hoje: ${_newHabitsList.length}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Raleway',
+                            color: Color(0xFF193339),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    // Listagem de Hábitos
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount:
+                            _newHabitsList.length, // Número de hábitos do dia
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              // Mostrar pop-up com detalhes do hábito
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              color: Color(0xFF193339),
+                                            ),
+                                            tooltip: 'Fechar',
+                                          ),
+                                        ),
+                                        Text(
+                                          _newHabitsList[index]['name'],
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(_newHabitsList[index]['description']),
+                                          SizedBox(height: 20),
+                                          Text( _newHabitsList[index]['track'].toString().toCapitalized,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Raleway',
+                                              color: Color(0xFF193339),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ),
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => EditHabitView(
+                                                habitId: _newHabitsList[index]['id'],
+                                                habitName: _newHabitsList[index]['name'],
+                                                habitDescription: _newHabitsList[index]['description'],
+                                                habitTrack: _newHabitsList[index]['track'],
+                                                //onHabitUpdated: fetchHabitsFromFirestore,
+                                              )
+                                            )
+                                          );
+                                        },
+                                        icon: Icon(Icons.edit, color: Color(0xFF193339)),
+                                        tooltip: 'Editar',
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete, color: Color(0xFF193339)),
+                                        onPressed: () {
+                                          // Exibir mensagem de confirmação antes de deletar
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text("Confirmar Deleção"),
+                                                content: Text("Você tem certeza que deseja deletar este hábito?"),
+                                                actions: [
+                                                  TextButton(
+                                                    child: Text("Cancelar"),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: Text("Deletar"),
+                                                    onPressed: () {
+                                                      final trackName = _newHabitsList[index]['track'];
+                                                      final habitID = _newHabitsList[index]['id'];
+                                                      deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
+                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).then((value) {
+                                fetchHabitsFromFirestore();
+                              });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),                             
+                                color: _newHabitsList[index]['isCompleted']
+                                    ? Color(0xFFB8FFC7)
+                                    : Colors.white,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                  child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          icon: const Icon(
-                                            Icons.close,
-                                            color: Color(0xFF193339),
+                                        SizedBox(
+                                          child : Text(
+                                            _newHabitsList[index]['name'],
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF193339),
+                                            ),
+                                            maxLines: null,
+                                            overflow: TextOverflow.visible,
                                           ),
-                                          tooltip: 'Fechar',
                                         ),
-                                      ),
-                                      Text(
-                                        _newHabitsList[index]['name'],
-                                        textAlign: TextAlign.start,
+                                      const SizedBox(height: 5),
+                                    ],
+                                  ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(                                  
+                                        icon: Image.asset(
+                                          _newHabitsList[index]['isCompleted']? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _newHabitsList[index]['isCompleted'] = !_newHabitsList[index]['isCompleted']; // Alterna o estado
+                                            changeActualState(
+                                              _newHabitsList[index]['track'],
+                                              _newHabitsList[index]['id'],
+                                              _newHabitsList[index]['isCompleted']
+                                              );
+                                          });
+                                          // Atualizar estado do checkbox
+                                        },
                                       ),
                                     ],
                                   ),
-                                  content: SingleChildScrollView(
-                                    child: ListBody(
-                                      children: <Widget>[
-                                        Text(_newHabitsList[index]['description']),
-                                        SizedBox(height: 20),
-                                        Text( _newHabitsList[index]['track'].toString().toCapitalized,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Raleway',
-                                            color: Color(0xFF193339),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ),
-                                  actions: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => EditHabitView(
-                                              habitId: _newHabitsList[index]['id'],
-                                              habitName: _newHabitsList[index]['name'],
-                                              habitDescription: _newHabitsList[index]['description'],
-                                              habitTrack: _newHabitsList[index]['track'],
-                                              //onHabitUpdated: fetchHabitsFromFirestore,
-                                            )
-                                          )
-                                        );
-                                      },
-                                      icon: Icon(Icons.edit, color: Color(0xFF193339)),
-                                      tooltip: 'Editar',
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete, color: Color(0xFF193339)),
-                                      onPressed: () {
-                                        // Exibir mensagem de confirmação antes de deletar
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text("Confirmar Deleção"),
-                                              content: Text("Você tem certeza que deseja deletar este hábito?"),
-                                              actions: [
-                                                TextButton(
-                                                  child: Text("Cancelar"),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text("Deletar"),
-                                                  onPressed: () {
-                                                    final trackName = _newHabitsList[index]['track'];
-                                                    final habitID = _newHabitsList[index]['id'];
-                                                    deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            ).then((value) {
-                              fetchHabitsFromFirestore();
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),                             
-                              color: _newHabitsList[index]['isCompleted']
-                                  ? Color(0xFFB8FFC7)
-                                  : Colors.white,
+                                ],
+                              ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                      SizedBox(
-                                        child : Text(
-                                          _newHabitsList[index]['name'],
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'Raleway',
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF193339),
-                                          ),
-                                          maxLines: null,
-                                          overflow: TextOverflow.visible,
-                                        ),
-                                      ),
-                                    const SizedBox(height: 5),
-                                  ],
-                                ),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(                                  
-                                      icon: Image.asset(
-                                        _newHabitsList[index]['isCompleted']? 'assets/icons/check.png': 'assets/icons/uncheck.png', // Altera o ícone com base no estado                                   
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _newHabitsList[index]['isCompleted'] = !_newHabitsList[index]['isCompleted']; // Alterna o estado
-                                          changeActualState(
-                                            _newHabitsList[index]['track'],
-                                            _newHabitsList[index]['id'],
-                                            _newHabitsList[index]['isCompleted']
-                                            );
-                                        });
-                                        // Atualizar estado do checkbox
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        if(_isLoading)
+          Container(
+            color: Colors.black.withOpacity(0.0),
+            child: Center(
+              child: CircularProgressIndicator() 
+              ),
+            )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -325,6 +336,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     // Limpa a lista local antes de carregar os novos dados
     setState(() {
       _newHabitsList.clear();
+      _isLoading = true;
     });
 
     // Para cada trilha, busque os hábitos sugeridos
@@ -343,7 +355,9 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
         });
       }
     }
-    setState(() {}); // Atualiza a tela com os dados carregados
+    setState(() {
+      _isLoading = false;
+    }); // Atualiza a tela com os dados carregados
   } catch (e) {
     print("Erro ao carregar hábitos do Firestore: $e");
   }
@@ -610,51 +624,5 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
     _habitNameController.clear();
     _habitDescriptionController.clear();
     return true;
-  }
-
-  static Widget _buildCarouselItem(String title, String subtitle) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: const Color(0xFF448D9C),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 14,
-              fontFamily: 'Raleway',
-              color: Colors.white70,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static String _getSubtitle(int index) {
-    switch (index) {
-      case 0:
-        return '80% de Completiude';
-      case 1:
-        return '90% de Comprometimento';
-      case 2:
-        return '70% de Completiude';
-      default:
-        return '';
-    }
   }
 }
