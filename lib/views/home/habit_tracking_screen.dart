@@ -226,6 +226,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                                                       final habitID = _newHabitsList[index]['id'];
                                                       deletarHabito(trackName, habitID, index); //deleção de hábtios sugeridos com vinculação firestore
                                                       Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
                                                     },
                                                   ),
                                                 ],
