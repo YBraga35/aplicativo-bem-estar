@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -110,7 +109,7 @@ class _HabitTrackingScreenState extends State<HabitTrackingScreen> {
                 const SizedBox(height: 30),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             // Parte Inferior
             Expanded(
               child: Column(
