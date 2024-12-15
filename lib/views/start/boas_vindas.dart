@@ -78,22 +78,25 @@ class BoasVindas extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        RichText(
-          textAlign: TextAlign.center,
-          text: const TextSpan(
-            style: TextStyle(
-              fontSize: 21,
-              color: Color(0xFF193339),
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.w500,
-            ),
-            children: [
-              TextSpan(text: 'Aqui começa sua jornada, em busca de '),
-              TextSpan(
-                text: 'uma vida mais saudável',
-                style: TextStyle(fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: const TextSpan(
+              style: TextStyle(
+                fontSize: 21,
+                color: Color(0xFF193339),
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w500,
               ),
-            ],
+              children: [
+                TextSpan(text: 'Aqui começa sua jornada, em busca de '),
+                TextSpan(
+                  text: 'uma vida mais saudável',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
         ),
       ],
