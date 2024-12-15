@@ -129,7 +129,7 @@ class _TrilhasState extends State<Trilhas> {
                   if (selectedButtons[4]) selectedTrilhas.add('Social');
                   
                   try {
-                    await _firestore.collection('users').doc(userId).set({
+                    await _firestore.collection('users').doc(userId).update({
                       'trails': selectedTrilhas,
                     });
                     Navigator.push(
