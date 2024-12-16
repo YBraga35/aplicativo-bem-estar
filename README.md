@@ -1,6 +1,6 @@
-# ZenJourney
+# Habitus
 
-ZenJourney é um aplicativo desenvolvido para promover hábitos saudáveis e bem-estar mental. Com uma abordagem centrada no usuário, o aplicativo visa ajudar as pessoas a melhorar sua qualidade de vida por meio de intervenções não medicamentosas e o acompanhamento de hábitos diários.
+Habitus é um aplicativo desenvolvido para promover hábitos saudáveis e bem-estar mental. Com uma abordagem centrada no usuário, o aplicativo visa ajudar as pessoas a melhorar sua qualidade de vida por meio de intervenções não medicamentosas e o acompanhamento de hábitos diários.
 
 [Documentação](https://drive.google.com/drive/u/1/folders/1zNEkovTotpOTCbXDP7hu1cJY1p52Uf2O)
 
@@ -8,7 +8,7 @@ ZenJourney é um aplicativo desenvolvido para promover hábitos saudáveis e bem
 
 ## Descrição do Projeto
 
-ZenJourney é um aplicativo que incentiva os usuários a adotar e manter hábitos saudáveis através de funcionalidades interativas e gamificadas. O aplicativo oferece rastreamento de sono, monitoramento de hábitos e uma área de leitura com artigos científicos sobre saúde e bem-estar. 
+Habitus é um aplicativo que incentiva os usuários a adotar e manter hábitos saudáveis através de funcionalidades interativas e gamificadas. O aplicativo oferece rastreamento de sono, monitoramento de hábitos e uma área de leitura com artigos científicos sobre saúde e bem-estar. 
 
 ## Recursos
 
@@ -66,7 +66,7 @@ Apenas seguir o link para visualizar o recurso:
 
 ## Uso
 
-Após a instalação, você pode começar a usar o ZenJourney para rastrear seus hábitos e melhorar seu bem-estar mental. O aplicativo oferece uma interface intuitiva e guias para ajudar você a aproveitar ao máximo seus recursos.
+Após a instalação, você pode começar a usar o Habitus para rastrear seus hábitos e melhorar seu bem-estar mental. O aplicativo oferece uma interface intuitiva e guias para ajudar você a aproveitar ao máximo seus recursos.
 
 ## Licença
 
