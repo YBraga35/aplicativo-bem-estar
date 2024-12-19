@@ -110,7 +110,7 @@ class EditHabitViewState extends State<EditHabitView> {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
     ),
-    child: IntrinsicHeight(
+    child: SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(15.0),
         child: Column(
